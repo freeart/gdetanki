@@ -1,0 +1,75 @@
+.navbar.navbar-app {
+
+    background: url('/img/bg-head.jpg') 0 0 repeat-x;
+    border: none;
+    border-radius: 0;
+}
+
+.navbar.navbar-app .brand-section {
+    background: url('/img/bg-head-in.jpg') no-repeat;
+    min-height: 128px;
+}
+
+.navbar.navbar-app .brand-section a.navbar-brand {
+    display: block;
+    margin-left: 110px;
+    margin-top: 18px;
+}
+
+.navbar.navbar-app .brand-section a.navbar-startgame {
+    display: block;
+    margin-right: 0px;
+    margin-top: 18px;
+}
+
+#main-menu {
+    margin-top: 40px;
+}
+
+#feed-menu li  {
+    padding-left: 10px;
+}
+
+#feed-menu li:first-child {
+    padding-left: 0px;
+}
+
+#feed-menu li a{
+    background: url('/img/hdl-1.jpg') 0 0 repeat-x;
+    color: #666666;
+}
+
+#feed-menu li.active a{
+    background: url('/img/bg-promo.jpg') 0 0 repeat-x;
+}
+
+
+@media (min-width: 768px) {
+    #main-menu {
+        display: inline-block;
+        float: none;
+        vertical-align: top;
+        text-align: center;
+    }
+
+    #main-menu li {
+        border-right: 1px #92892a solid;
+        white-space: nowrap;
+    }
+
+    #main-menu li.active {
+
+    }
+
+    #main-menu li a {
+        color: #92892a;
+    }
+
+    #main-menu li a:hover {
+        background-color: rgba(255, 255, 255, 0.25);
+    }
+
+    #main-menu li:last-child {
+        border-right: none;
+    }
+}

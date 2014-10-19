@@ -4,6 +4,8 @@ include_once('../common.php');
 
 include_once('../core.php');
 
+ini_set('display_errors', 'On');
+
 class Main extends Api
 {
     public function __construct()

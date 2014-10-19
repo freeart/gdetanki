@@ -14,7 +14,7 @@ class Template extends Api
 		}
 
 		try {
-			require('../smarty/bin/Smarty.class.php');
+			require('/usr/local/lib/php/Smarty/Smarty.class.php');
 			$this->link = new Smarty();
 
 			$this->link->setTemplateDir('../templates');

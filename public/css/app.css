@@ -1,19 +1,20 @@
-.navbar.navbar-app {
+body {
 
-    background: url('/img/bg-head.jpg') 0 0 repeat-x;
+}
+
+.navbar.navbar-app {
+    background: url('/img/bg-head.jpg') 0 0 repeat;
     border: none;
     border-radius: 0;
 }
 
-.navbar.navbar-app .brand-section {
-    background: url('/img/bg-head-in.jpg') no-repeat;
-    min-height: 128px;
+.navbar.navbar-app .brand-section .navbar-header {
+    background: url('/img/logo.png') no-repeat center 20px;
+    min-height: 80px;
 }
 
-.navbar.navbar-app .brand-section a.navbar-brand {
-    display: block;
-    margin-left: 110px;
-    margin-top: 18px;
+.navbar.navbar-app .brand-section span {
+    color: #92892a;
 }
 
 .navbar.navbar-app .brand-section a.navbar-startgame {
@@ -22,34 +23,64 @@
     margin-top: 18px;
 }
 
-#main-menu {
-    margin-top: 40px;
+#header-collapse {
+    border-top: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }
 
-#feed-menu li  {
-    padding-left: 10px;
+#main-menu li a {
+    color: #92892a;
 }
 
-#feed-menu li:first-child {
-    padding-left: 0px;
+#main-menu li a:hover {
+    background-color: rgba(255, 255, 255, 0.25);
 }
 
-#feed-menu li a{
+#main-menu-collapse {
+    float: none;
+    width: 100%;
+}
+
+#feed-menu li a {
     background: url('/img/hdl-1.jpg') 0 0 repeat-x;
     color: #666666;
 }
 
-#feed-menu li.active a{
+#feed-menu li.active a {
     background: url('/img/bg-promo.jpg') 0 0 repeat-x;
 }
 
+.feed-wrap {
+    margin-top: 40px;
+}
+
+.feed-header .media-list {
+    margin-top: 28px;
+}
 
 @media (min-width: 768px) {
+
+    .navbar.navbar-app .brand-section .navbar-header {
+        background: none;
+    }
+
+    .navbar.navbar-app .brand-section {
+        background: url('/img/bg-head-in.jpg') no-repeat;
+    }
+
+    .navbar.navbar-app .brand-section a.navbar-brand {
+        display: block;
+        margin-left: 110px;
+        margin-top: 18px;
+    }
+
     #main-menu {
         display: inline-block;
         float: none;
         vertical-align: top;
         text-align: center;
+        margin-top: 40px;
     }
 
     #main-menu li {
@@ -61,15 +92,15 @@
 
     }
 
-    #main-menu li a {
-        color: #92892a;
-    }
-
-    #main-menu li a:hover {
-        background-color: rgba(255, 255, 255, 0.25);
-    }
-
     #main-menu li:last-child {
         border-right: none;
+    }
+
+    #feed-menu li {
+        padding-left: 10px;
+    }
+
+    #feed-menu li:first-child {
+        padding-left: 0px;
     }
 }

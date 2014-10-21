@@ -2,6 +2,26 @@ body {
 
 }
 
+#footer {
+    position: relative;
+    background: url('/img/bg-head.jpg') 0 0 repeat;
+    color: #92892a;
+    min-height: 60px;
+    margin-top: 20px;
+}
+
+#footer span {
+    display: block;
+    padding: 20px 0;
+    margin: 0 20px;
+}
+
+.wrap-banner {
+    width: 100%;
+    height: auto;
+    margin: 20px 0;
+}
+
 .navbar.navbar-app {
     background: url('/img/bg-head.jpg') 0 0 repeat;
     border: none;
@@ -44,6 +64,15 @@ body {
 #main-menu-collapse {
     float: none;
     width: 100%;
+}
+
+#right-menu li a {
+    white-space: nowrap;
+    background: url('/img/bg-promo.jpg') 0 0 repeat-x;
+    color: #666666;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: .9px;
 }
 
 #feed-menu li a {
@@ -127,6 +156,20 @@ body {
     border-radius: 0;
 }
 
+.btn-signin {
+    background-color: #B0B0B0;
+    height: 34px;
+    border-radius: 0;
+}
+
+.form-signin {
+    margin: 40px 0 20px;
+}
+
+.form-signin .btn-group .btn-group:first-child {
+    padding-right: 5px;
+}
+
 .post-label {
     position: relative;
     display: none;
@@ -142,6 +185,26 @@ body {
     font-size: 12px;
     color: #fff;
     background-color: rgba(146, 137, 42, .3);
+
+}
+
+.form-signin input {
+    height: 38px;
+    line-height: 38px;
+    border-radius: 0;
+    font-size: 12px;
+    background: none;
+    padding: 0 36px 0 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.form-signin .input-group {
+    margin-bottom: 10px;
+}
+
+.form-signin .input-group-addon:first-child {
+    border-radius: 0;
 }
 
 @media (min-width: 768px) {

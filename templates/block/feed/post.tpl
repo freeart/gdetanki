@@ -1,8 +1,11 @@
-<div class="feed-wrap">
+<div class="feed-wrap {if ($item.pinned)}pinned{/if}">
+    {if ($item.pinned)}
+        <div class="post-label"><span class="btn-post-label">Закрепленный пост</span></div>
+    {/if}
     <div class="feed-header">
         <div class="row">
             <div class="col-md-8">
-                <h2>Head of post Head of post Head of post Head of post Head of post Head of post</h2>
+                <h2>{$item.title}</h2>
             </div>
             <div class="col-md-4">
                 <ul class="media-list">
@@ -14,18 +17,32 @@
                         </a>
 
                         <div class="media-body text-right">
-                            <h5 class="media-heading">Nick_name_89</h5>
-                            <span class="text-muted">time of post</span>
+                            <h5 class="media-heading">{$item.user}</h5>
+                            <span class="text-muted">{$item.time}</span>
                         </div>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
+    <!-- .feed-header -->
     <div class="feed-content">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor
-        sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et
-        magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis
-        tellus mollis orci, sed rhoncus sapien nunc eget odio.
+        {$item.body}
     </div>
+    <div class="feed-footer">
+        <button class="btn btn-read-more" type="button">
+            Читать дальше
+        </button>
+
+        <div class="social-bar pull-right">
+
+            <i class="fa fa-minus-circle fa-2x" id="red"></i>
+            <span>&nbsp;{$item.rating}&nbsp;</span>
+            <i class="fa fa-plus-circle fa-2x" id="green"></i>
+        </div>
+        <a class="btn btn-vk pull-right" href="#">
+            Поделиться <i class="fa fa-vk fa-lg"></i></a>
+    </div>
+    <!-- .feed-content -->
 </div>
+<!-- .feed-wrap -->

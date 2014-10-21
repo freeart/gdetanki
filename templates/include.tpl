@@ -10,6 +10,10 @@
 <!-- Animate.css -->
 <link rel="stylesheet" href="/bower_components/animate/animate.min.css" type="text/css" media="screen"/>
 
+<!-- Font-awesome.css -->
+<link rel="stylesheet" href="/bower_components/components-font-awesome/css/font-awesome.min.css" type="text/css" media="screen"/>
+
+
 <!-- App.css -->
 <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen"/>
 

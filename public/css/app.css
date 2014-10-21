@@ -31,6 +31,10 @@ body {
 
 #main-menu li a {
     color: #92892a;
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1.1px;
 }
 
 #main-menu li a:hover {
@@ -53,13 +57,97 @@ body {
 
 .feed-wrap {
     margin-top: 40px;
+    padding: 0 10px;
+}
+
+.feed-wrap.pinned {
+    border: 1px solid transparent;
+    -webkit-box-shadow: 0 2px 8px rgba(146, 137, 42, .3);
+    box-shadow: 0 2px 8px rgba(146, 137, 42, .3);
+    -webkit-box-shadow: 0 2px 8px rgba(146, 137, 42, .3);
+    box-shadow: 0 2px 8px rgba(146, 137, 42, .3);
 }
 
 .feed-header .media-list {
     margin-top: 28px;
 }
 
+.feed-header {
+    margin-top: 10px;
+}
+
+.feed-content > img {
+    margin: 10px 0;
+    display: block;
+    width: 100% \9;
+    max-width: 100% !important;
+    height: auto;
+}
+
+.feed-footer {
+    padding-bottom: 10px;
+}
+
+.social-bar span {
+    font-size: 28px;
+    line-height: 34px;
+}
+
+.social-bar {
+    margin-left: 20px;
+    color: #B0B0B0;
+}
+
+.social-bar i {
+    cursor: pointer;
+}
+
+.social-bar #red:hover:before {
+    color: red;
+}
+
+.social-bar #green:hover:before {
+    color: green;
+}
+
+.btn-vk {
+    background-color: #2d6ca2;
+    color: #fff;
+    height: 34px;
+    border-radius: 0;
+}
+
+.btn-vk:hover, .btn-vk:active {
+    text-decoration: none;
+    color: #fff;
+}
+
+.btn-read-more {
+    height: 34px;
+    border-radius: 0;
+}
+
+.post-label {
+    position: relative;
+    display: none;
+}
+
+.btn-post-label {
+    position: absolute;
+    top: 0;
+    right: -10px;
+    z-index: 10;
+    display: block;
+    padding: 5px 8px;
+    font-size: 12px;
+    color: #fff;
+    background-color: rgba(146, 137, 42, .3);
+}
+
 @media (min-width: 768px) {
+    .post-label {
+        display: block;
+    }
 
     .navbar.navbar-app .brand-section .navbar-header {
         background: none;

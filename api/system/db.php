@@ -1,14 +1,26 @@
 <?php
 
+require_once '../../dev/pg_types/Abstract/Base.php';
+require_once '../../dev/pg_types/Abstract/Primitive.php';
+require_once '../../dev/pg_types/Abstract/Container.php';
+require_once '../../dev/pg_types/Abstract/Wrapper.php';
+require_once '../../dev/pg_types/Pgsql/Hstore.php';
+require_once '../../dev/pg_types/Pgsql/HstoreRow.php';
+require_once '../../dev/pg_types/Pgsql/Array.php';
+require_once '../../dev/pg_types/Pgsql/Row.php';
+require_once '../../dev/pg_types/String.php';
+require_once '../../dev/pg_types/Wrapper/NullToDefault.php';
+require_once '../../dev/pg_types/Exception/Common.php';
+
 class Db extends Api
 {
     private $link;
 
     public $mapper = array(
         'default' => array(
-            'db' => 'test',
+            'db' => 'gdetanki',
             'user' => 'postgres',
-            'pwd' => '123456'
+            'pwd' => 'root'
         )
     );
 

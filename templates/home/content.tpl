@@ -4,16 +4,11 @@
             {call include_ex file='block/menu/right-menu'}
             {call include_ex file='block/banner/img-banner'}
         </div>
+		{assign var="posts" value=$this->users->feed()}
         <div class="col-sm-12 col-md-9 col-md-pull-3">
             {call include_ex file='block/menu/feed-menu'}
-            {$posts = [['title'=>'My pinned post', 'user'=>'tank_killer_56', 'time'=>'2 days ago', 'pinned'=>1, 'rating'=>12,
-            'body'=>'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio. <img src="/img/post1.jpg">'
-            ],
-            ['title'=>'Мой первый пост', 'user'=>'tank_killer_56', 'time'=>'2 дня назад', 'pinned'=>0, 'rating'=>0,
-            'body'=>'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio. <img src="/img/post2.jpg">'
-            ]
-            ]}
-            {foreach from=$posts item=item}
+
+            {foreach from=$posts item=post}
                 {call include_ex file='block/feed/post'}
             {/foreach}
 

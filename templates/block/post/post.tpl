@@ -1,7 +1,4 @@
-<div class="feed-wrap {if ($post.pinned)}pinned{/if}">
-    {if ($post.pinned)}
-        <div class="post-label"><span class="btn-post-label">Закрепленный пост</span></div>
-    {/if}
+<div class="feed-wrap">
     <div class="feed-header">
         <div class="row">
             <div class="col-md-8">
@@ -30,12 +27,7 @@
         {$post.detail.body}
     </div>
     <div class="feed-footer">
-        <a href="/post/{$post.id}" class="btn btn-read-more">
-            Читать дальше
-        </a>
-
         <div class="social-bar pull-right">
-
             <i class="fa fa-minus-circle fa-2x" id="red"></i>
             <span>&nbsp;{$post.rating}&nbsp;</span>
             <i class="fa fa-plus-circle fa-2x" id="green"></i>

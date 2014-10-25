@@ -23,4 +23,6 @@
 <!-- Bootstrap.js -->
 <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
+<script src="/js/jquery.timeago.js"></script>
+
 {call include_ex file=$controller|cat:'/include'}

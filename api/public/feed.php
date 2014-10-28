@@ -7,7 +7,7 @@ class Feed extends Api
 		parent::__construct();
 	}
 
-	public function get()
+	public function get($condition)
 	{
 		$sql = 'select p.id,
 					p.detail,
@@ -18,6 +18,7 @@ class Feed extends Api
 					json_agg((select x from (select c.id, c.detail, c."authorId", c.created) x)) "comments"
 				from posts p
 				left outer join comments c on p.id = c."postId"
+				 ' . $condition . '
 				group by p.id
 				order by p.pinned desc, p.created desc';
 

@@ -22,7 +22,7 @@
                         <img src="/img/go-btn.png">
                     </a>
                     <ul class="nav nav-justified" id="main-menu">
-                        <li class="active"><a href="#">Главная</a></li>
+                        <li class="active"><a href="/">Главная</a></li>
                         <li><a href="#">Wiki</a></li>
                         <li><a href="#">Конкурсы</a></li>
                         <li><a href="#">Юмор</a></li>

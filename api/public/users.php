@@ -33,7 +33,13 @@ class Users extends Api
 	{
 		$filter = $this->request->get('filter', 'string');
 
-		return $this->feed->get();
+		$map = array(
+			'top' => 'where p.starred is true',
+			'new' => 'where p.created::date = CURRENT_DATE',
+			'hot' => 'where p.rating > 9'
+		);
+
+		return $this->feed->get(array_key_exists($filter, $map) ? $map[$filter] : '');
 	}
 
 	public function logged($str = null)

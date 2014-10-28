@@ -30,16 +30,17 @@
         {$post.detail.body}
     </div>
     <div class="feed-footer">
-        <a href="/post/{$post.id}" class="btn btn-read-more">
+        <a href="{$this->users->logged("/post/{$post.id}")}" class="btn btn-read-more">
             Читать дальше
         </a>
 
+		{if $this->users->logged()}
         <div class="social-bar pull-right">
-
             <i class="fa fa-minus-circle fa-2x" id="red"></i>
             <span>&nbsp;{$post.rating}&nbsp;</span>
             <i class="fa fa-plus-circle fa-2x" id="green"></i>
         </div>
+		{/if}
         <a class="btn btn-vk pull-right" href="#">
             Поделиться <i class="fa fa-vk fa-lg"></i></a>
     </div>

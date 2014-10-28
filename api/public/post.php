@@ -7,6 +7,23 @@ class Post extends Api
 		parent::__construct();
 	}
 
+	public function rating($id, $value){
+		$sql = 'update posts set rating = rating + (:value) where id = :post_id returning rating';
+
+		$sth = $this->db->prepare($sql);
+
+		$sth->bindParam(':post_id', $id, PDO::PARAM_INT);
+		$sth->bindParam(':value', $value, PDO::PARAM_INT);
+
+		$sth->execute();
+
+		$data = $sth->fetch(PDO::FETCH_ASSOC);
+
+		$sth->closeCursor();
+
+		return $data['rating'];
+	}
+
 	public function get($id)
 	{
 		$sql = 'select p.id,

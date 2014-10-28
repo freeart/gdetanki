@@ -55,12 +55,14 @@ class Users extends Api
 	{
 		$this->session->remove('user_id');
 
-		header('Location: ' . $_SERVER['REQUEST_URI']);
+		return array(
+			"body" => array("mode" => "refresh")
+		);
 	}
 
 	public function signin()
 	{
-		$login = $this->request->get('login', 'enject');
+		$login = strtolower($this->request->get('login', 'enject'));
 		$password = $this->request->get('password', 'enject');
 		$checksum = md5($login . $password . 'E4fgg656@#%uyghfddhghcv');
 
@@ -85,6 +87,28 @@ class Users extends Api
 
 		$sth->closeCursor();
 
-		header('Location: ' . $_SERVER['REQUEST_URI']);
+		if ($id > 0) {
+			return array(
+				"body" => array("mode" => "redirect", "url" => "/"),
+				"data" => array("id" => $id)
+			);
+		} else {
+			return array(
+				"error" => "Ошибка логина или пароля"
+			);
+		}
+	}
+
+	public function rating()
+	{
+		$id = $this->request->get('id', 'integer');
+		$value = $this->request->get('value', 'integer');
+		$value = $value > 0 ? 1 : -1;
+
+		$rating = $this->post->rating($id, $value);
+
+		return array(
+			'[data-id=' . $id . '] .social-bar span' => array('mode' => 'replace', 'html' => $rating)
+		);
 	}
 }

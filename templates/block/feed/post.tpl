@@ -1,4 +1,4 @@
-<div class="feed-wrap {if ($post.pinned)}pinned{/if}">
+<div class="feed-wrap {if ($post.pinned)}pinned{/if}" role="block" data-id="{$post.id}">
     {if ($post.pinned)}
         <div class="post-label"><span class="btn-post-label">Закрепленный пост</span></div>
     {/if}
@@ -36,9 +36,9 @@
 
 		{if $this->users->logged()}
         <div class="social-bar pull-right">
-            <i class="fa fa-minus-circle fa-2x" id="red"></i>
+            <i action="/api/users/rating" data-value="-1" class="fa fa-minus-circle fa-2x" id="red"></i>
             <span>&nbsp;{$post.rating}&nbsp;</span>
-            <i class="fa fa-plus-circle fa-2x" id="green"></i>
+            <i action="/api/users/rating" data-value="1" class="fa fa-plus-circle fa-2x" id="green"></i>
         </div>
 		{/if}
         <a class="btn btn-vk pull-right" href="#">

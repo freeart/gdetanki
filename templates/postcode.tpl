@@ -13,6 +13,9 @@
 			});
 
 			$(".timeago").timeago();
+
+			App.init({/literal}{$controller}{literal}, App.actions);
+			App.init(common, App.actions);
 		});
 
 

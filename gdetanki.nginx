@@ -14,17 +14,40 @@ server {
         rewrite ^/(/)?$ /index.php?c=home&t=tpl;
     }
 
+	location ~ ^/registration {
+        rewrite ^/([^/]*)/?(.*)$  /index.php?c=registration&t=tpl&$3;
+    }
+
 	location ~ ^/feed {
         if (!-e $request_filename){
-            rewrite ^/([^/]*)/([^/]*)/?(.*)$ /index.php?c=home&filter=$2&t=tpl;
+            rewrite ^/([^/]*)/([^/]*)/?(.*)$ /index.php?c=home&filter=$2&t=tpl&$3;
         }
     }
 
     location ~ ^/post {
         if (!-e $request_filename){
-            rewrite ^/([^/]*)/([^/]*)/?(.*)$ /index.php?c=post&id=$2&t=tpl;
+            rewrite ^/([^/]*)/([^/]*)/?(.*)$ /index.php?c=post&id=$2&t=tpl&$3;
         }
     }
+
+    location ~ ^/get {
+		if (!-e $request_filename){
+            rewrite ^/([^/]*)/([^/]*)/([^/]*)/?(.*)$ /index.php?&c=$2&m=$3&$4&t=access;
+        }
+    }
+
+	location ~ ^/html {
+		if (!-e $request_filename){
+			rewrite ^/([^/]*)/([^/]*)/([^/]*)/?(.*)$ /index.php?&c=$2&f=$3&$4&t=html;
+		}
+	}
+
+	location ~ ^/api {
+		if (!-e $request_filename){
+			rewrite ^/([^/]*)/([^/]*)/([^/]*)/?(.*)$ /index.php?&c=$2&m=$3&$4&t=json;
+		}
+	}
+
 
     location ~ \.php$ {
         fastcgi_intercept_errors on;

@@ -44,7 +44,7 @@
         <a class="btn btn-vk pull-right" href="#">
             Поделиться <i class="fa fa-vk fa-lg"></i></a>
     </div>
-    <div class="speed-menu" style="display: none;">
+    <div class="speed-menu">
         <ul>
             <li class="text-center"><span class="fa fa-thumb-tack fa-4x"></span></li>
             <li class="text-center"><span class="fa fa-star fa-4x"></span></li>

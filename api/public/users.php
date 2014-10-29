@@ -9,8 +9,9 @@ class Users extends Api
 		parent::__construct();
 
 		$id = $this->session->get('user_id');
+
 		if ($id > 0) {
-			$data = json_decode($this->redis->get('users:' . $id));
+			$data = json_decode($this->redis->get('users:info:' . $id));
 			$data->id = $id;
 
 			$this->current = $data;
@@ -106,6 +107,8 @@ class Users extends Api
 		$value = $value > 0 ? 1 : -1;
 
 		$rating = $this->post->rating($id, $value);
+
+		//$this->redis->hmset('users:rating:' . $id);
 
 		return array(
 			'[data-id=' . $id . '] .social-bar span' => array('mode' => 'replace', 'html' => $rating)

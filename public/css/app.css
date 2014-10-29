@@ -244,7 +244,7 @@ body {
 
 @media (min-width: 768px) {
 
-    .speed-menu.visible {
+    .feed-wrap:hover .speed-menu {
         display: block;
     }
 

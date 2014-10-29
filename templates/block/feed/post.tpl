@@ -44,6 +44,7 @@
         <a class="btn btn-vk pull-right" href="#">
             Поделиться <i class="fa fa-vk fa-lg"></i></a>
     </div>
+    {if $this->users->logged()}
     <div class="speed-menu">
         <ul>
             <li class="text-center"><span class="fa fa-thumb-tack fa-4x"></span></li>
@@ -53,6 +54,7 @@
             <li class="text-center"><span class="fa fa-trash fa-4x"></span></li>
         </ul>
     </div>
+    {/if}
     <!-- .feed-content -->
 </div>
 <!-- .feed-wrap -->

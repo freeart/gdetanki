@@ -37,7 +37,7 @@
 		{if $this->users->logged()}
 			<div class="social-bar pull-right">
 				<i action="/api/users/rating" data-value="-1" class="fa fa-minus-circle fa-2x" id="red"></i>
-				<span>&nbsp;{$post.rating}&nbsp;</span>
+				<span>{$post.rating}</span>
 				<i action="/api/users/rating" data-value="1" class="fa fa-plus-circle fa-2x" id="green"></i>
 			</div>
 		{/if}

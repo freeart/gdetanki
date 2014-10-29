@@ -11,7 +11,7 @@ class Users extends Api
 		$id = $this->session->get('user_id');
 
 		if ($id > 0) {
-			$data = json_decode($this->redis->get('users:info:' . $id));
+			$data = json_decode($this->redis->get('users:' . $id . ':info'));
 			$data->id = $id;
 
 			$this->current = $data;
@@ -95,7 +95,8 @@ class Users extends Api
 			);
 		} else {
 			return array(
-				"error" => "Ошибка логина или пароля"
+				"error" => 1,
+				"message" => "Ошибка логина или пароля"
 			);
 		}
 	}
@@ -106,12 +107,22 @@ class Users extends Api
 		$value = $this->request->get('value', 'integer');
 		$value = $value > 0 ? 1 : -1;
 
-		$rating = $this->post->rating($id, $value);
+		$bulk = $this->redis->hmget('users:' . $this->current->id . ':rating:' . $id, 'v', 'r');
+		$bulk[1] = $bulk[1] === null ? 2 : $bulk[1];
 
-		//$this->redis->hmset('users:rating:' . $id);
+		if ($bulk[0] != $value && $bulk[1] > 0) {
+							$value = $bulk[1] == 1 ? $value * 2 : $value;
 
-		return array(
-			'[data-id=' . $id . '] .social-bar span' => array('mode' => 'replace', 'html' => $rating)
-		);
+			$this->redis->hmset('users:' . $this->current->id . ':rating:' . $id, 'v', $value, 'r', $bulk[1] - 1);
+			$rating = $this->post->rating($id, $value);
+			return array(
+				'[data-id=' . $id . '] .social-bar span' => array('mode' => 'replace', 'html' => $rating)
+			);
+		}else{
+			return array(
+				"error" => 1,
+				"message" => $bulk[1] == 1 ? "Вы можете только изменить голос (1 раз)" : "Вы уже голосовали"
+			);
+		}
 	}
 }

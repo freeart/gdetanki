@@ -52,11 +52,11 @@ class Post extends Api
 		$data = $sth->fetch(PDO::FETCH_ASSOC);
 		$data["detail"] = $hstoreType->input($data["detail"]);
 		$data["comments"] = json_decode($data["comments"]);
-		$data["author"] = json_decode($this->redis->get('users:info:' . $data["authorId"]));
+		$data["author"] = json_decode($this->redis->get('users:' . $data["authorId"] . ':info'));
 		foreach ($data["comments"] as $key => $value) {
 			if ($value->id) {
 				$value->detail = $hstoreType->input($value->detail);
-				$value->author = json_decode($this->redis->get('users:info:' . $value->authorId));
+				$value->author = json_decode($this->redis->get('users:' . $value->authorId . ':info'));
 			}
 		}
 

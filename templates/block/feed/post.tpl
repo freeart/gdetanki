@@ -47,11 +47,11 @@
     {if $this->users->logged()}
     <div class="speed-menu">
         <ul>
-            <li class="text-center"><span class="fa fa-thumb-tack fa-3x"></span></li>
-            <li class="text-center"><span class="fa fa-star fa-3x"></span></li>
+            <li class="text-center"><span class="fa fa-thumb-tack fa-4x"></span></li>
+            <li class="text-center"><span class="fa fa-star fa-4x"></span></li>
             <li class="separation"></li>
-            <li class="text-center"><span class="fa fa-pencil fa-3x"></span></li>
-            <li class="text-center"><span class="fa fa-trash fa-3x"></span></li>
+            <li class="text-center"><span class="fa fa-pencil fa-4x"></span></li>
+            <li class="text-center"><span class="fa fa-trash fa-4x"></span></li>
         </ul>
     </div>
     {/if}

@@ -35,11 +35,11 @@ class Feed extends Api
 		while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 			$row["detail"] = $hstoreType->input($row["detail"]);
 			$row["comments"] = json_decode($row["comments"]);
-			$row["author"] = json_decode($this->redis->get('users:' . $row["authorId"]));
+			$row["author"] = json_decode($this->redis->get('users:info:' . $row["authorId"]));
 			foreach ($row["comments"] as $key => $value) {
 				if ($value->id) {
 					$value->detail = $hstoreType->input($value->detail);
-					$value->author = json_decode($this->redis->get('users:' . $value->authorId));
+					$value->author = json_decode($this->redis->get('users:info:' . $value->authorId));
 				}
 			}
 			$data[] = $row;

@@ -85,6 +85,7 @@ body {
 }
 
 .feed-wrap {
+    position: relative;
     margin-top: 40px;
     padding: 0 10px;
 }
@@ -214,14 +215,35 @@ body {
     border-radius: 0;
 }
 
+.speed-menu {
+    position: absolute;
+    top: 0px;
+    left: -70px;
+    height: 100%;
+    width: 70px;
+}
+
+.speed-menu ul {
+    background: url('/img/bg-promo.jpg') 0 0 repeat;
+    color: white;
+    padding: initial;
+}
+
+.speed-menu ul > li {
+    margin: 5px 0 0 0;
+    padding: 2px;
+    display: block;
+}
+
+.speed-menu ul > li.separation {
+    height: 5px;
+    margin: 5px 0 0 0;
+    background-color: #fff;
+}
+
 @media (min-width: 768px) {
 
     .speed-menu.visible {
-        position: absolute;
-        top: 0px;
-        left: -70px;
-        height: 100%;
-        width: 70px;
         display: block;
     }
 

@@ -34,63 +34,23 @@
             Читать дальше
         </a>
 
-		{if $this->users->logged()}
-        <div class="social-bar pull-right">
-            <i action="/api/users/rating" data-value="-1" class="fa fa-minus-circle fa-2x" id="red"></i>
-            <span>&nbsp;{$post.rating}&nbsp;</span>
-            <i action="/api/users/rating" data-value="1" class="fa fa-plus-circle fa-2x" id="green"></i>
-        </div>
-		{/if}
+        {if $this->users->logged()}
+            <div class="social-bar pull-right">
+                <i action="/api/users/rating" data-value="-1" class="fa fa-minus-circle fa-2x" id="red"></i>
+                <span>&nbsp;{$post.rating}&nbsp;</span>
+                <i action="/api/users/rating" data-value="1" class="fa fa-plus-circle fa-2x" id="green"></i>
+            </div>
+        {/if}
         <a class="btn btn-vk pull-right" href="#">
             Поделиться <i class="fa fa-vk fa-lg"></i></a>
     </div>
     <div class="speed-menu" style="display: none;">
-        <ul style="
-    background: url('/img/bg-promo.jpg') 0 0 repeat;
-    color: white;
-    /* text-align: center !important; */
-    padding: initial;
-    /* display: inline-block; */
-">
-            <li class="text-center" style="
-    margin: 5px 0 0 0;
-    /* margin: 10px; */
-    padding: 2px;
-    /* margin: initial; */
-    display: block;
-
-    /* padding: inherit; */
-"><span class="fa fa-thumb-tack fa-4x"></span></li>
-            <li class="text-center" style="
-    margin: 5px 0 0 0;
-    padding: 2px;
-    /* margin: initial; */
-    display: block;
-
-    /* padding: inherit; */
-"><span class="fa fa-star fa-4x"></span></li>
-            <li class="separetion" style="
-    height: 5px;
-    margin: 5px 0 0 0;
-    background-color: #fff;
-"></li>
-            <li class="text-center" style="
-    margin: 5px 0 0 0;
-    padding: 2px;
-    /* margin: initial; */
-    display: block;
-
-    /* padding: inherit; */
-"><span class="fa fa-pencil fa-4x"></span></li>
-            <li class="text-center" style="
-    margin: 5px 0 0 0;
-    padding: 2px;
-    /* margin: initial; */
-    display: block;
-
-    /* padding: inherit; */
-"><span class="fa fa-trash fa-4x"></span></li>
-
+        <ul>
+            <li class="text-center"><span class="fa fa-thumb-tack fa-4x"></span></li>
+            <li class="text-center"><span class="fa fa-star fa-4x"></span></li>
+            <li class="separation"></li>
+            <li class="text-center"><span class="fa fa-pencil fa-4x"></span></li>
+            <li class="text-center"><span class="fa fa-trash fa-4x"></span></li>
         </ul>
     </div>
     <!-- .feed-content -->

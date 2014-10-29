@@ -174,6 +174,10 @@ body {
     margin: 40px 0 20px;
 }
 
+.form-edit-post {
+    margin: 20px 0;
+}
+
 .form-signin .btn-group .btn-group:first-child {
     padding-right: 5px;
 }
@@ -196,7 +200,7 @@ body {
 
 }
 
-.form-signin input {
+.form-signin input, .form-edit-post input {
     height: 38px;
     line-height: 38px;
     border-radius: 0;
@@ -207,11 +211,17 @@ body {
     text-transform: uppercase;
 }
 
-.form-signin .input-group {
+.form-edit-post input{
+    height: 48px;
+    line-height: 48px;
+    font-size: 16px;
+}
+
+.form-signin .input-group, .form-edit-post .input-group {
     margin-bottom: 10px;
 }
 
-.form-signin .input-group-addon:first-child {
+.form-signin .input-group-addon:first-child, .form-edit-post .input-group-addon:first-child {
     border-radius: 0;
 }
 
@@ -234,6 +244,7 @@ body {
     margin: 5px 0 0 0;
     padding: 2px;
     display: block;
+    cursor: pointer;
 }
 
 .speed-menu ul > li.separation {

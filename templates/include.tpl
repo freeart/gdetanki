@@ -16,12 +16,20 @@
 <!-- App.css -->
 <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen"/>
 
+<!-- Summernote.css -->
+<link rel="stylesheet" href="/bower_components/summernote/dist/summernote.css" type="text/css" media="screen"/>
+<link rel="stylesheet" href="/bower_components/summernote/dist/summernote-bs3.css" type="text/css" media="screen"/>
+
 <!-- Jquery.js -->
 <script src="/bower_components/jquery/dist/jquery.min.js"></script>
 
 <!-- Bootstrap.js -->
 <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
+<!-- Summernote.js -->
+<script src="/bower_components/summernote/dist/summernote.min.js"></script>
+
+<script src="/js/jquery.timeago.js"></script>
 <script src="/js/jquery.timeago.js"></script>
 <script src="/js/brisk.js"></script>
 <script src="/js/common.js"></script>

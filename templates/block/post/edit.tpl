@@ -1,4 +1,4 @@
-<div class="feed-wrap" role="block" data-id="{$post.id}">
+<div class="wrapper" role="block" data-id="{$post.id}">
 	<form class="form-edit-post" role="block" action="" method="GET"
 		  enctype="multipart/form-data" onsubmit="return postForm()">
 		<div class="input-group margin-bottom-sm">
@@ -11,6 +11,19 @@
 				{$post.detail.body}
 			</textarea>
 		</fieldset>
+        <div class="footer">
+
+            <div class="btn-group">
+                <a class="btn btn-default" href="#"><i class="fa fa-thumb-tack"></i></a>
+                <a class="btn btn-default" href="#"><i class="fa fa-star"></i></a>
+                <a class="btn btn-danger" href="#"><i class="fa fa-trash"></i></a>
+            </div>
+
+            <div class="btn-group pull-right">
+                <a class="btn btn-primary" href="#">Сохранить <i class="fa fa-save fa-lg"></i></a>
+                <a class="btn btn-warning" href="#">Отменить изменения <i class="fa fa-undo fa-lg"></i></a>
+            </div>
+        </div>
 	</form>
 	{literal}
 		<script type="text/javascript">

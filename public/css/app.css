@@ -122,6 +122,7 @@ body {
 .social-bar span {
     font-size: 28px;
     line-height: 34px;
+    padding: 0 5px;
 }
 
 .social-bar {
@@ -176,6 +177,17 @@ body {
 
 .form-edit-post {
     margin: 20px 0;
+}
+
+.form-edit-post .footer
+{
+    margin: 10px 0;
+}
+
+.form-edit-post .footer .btn {
+
+    height: 34px;
+    border-radius: 0;
 }
 
 .form-signin .btn-group .btn-group:first-child {

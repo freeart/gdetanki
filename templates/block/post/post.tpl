@@ -1,4 +1,5 @@
-<div class="feed-wrap {if ($post.pinned)}pinned{/if}" role="block" data-id="{$post.id}">
+<div class="wrapper" role="block" data-id="{$post.id}">
+<div class="feed-wrap {if ($post.pinned)}pinned{/if}">
     {if ($post.pinned)}
         <div class="post-label"><span class="btn-post-label">Закрепленный пост</span></div>
     {/if}
@@ -58,3 +59,4 @@
 	<!-- .feed-content -->
 </div>
 <!-- .feed-wrap -->
+</div>

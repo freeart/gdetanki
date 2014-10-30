@@ -155,6 +155,7 @@ App.actions.common = {
 	},
 
 	lockForm: function (e, el) {
+		var root = $(el).closest('[role="block"]')
 		$('<div class="brisk_locker" />').css({
 			position: 'absolute',
 			width: '100%',
@@ -163,11 +164,12 @@ App.actions.common = {
 			left: 0,
 			background: '#fff',
 			opacity: .5
-		}).appendTo(el);
+		}).appendTo(root);
 	},
 
 	unlockForm: function (e, el) {
-		$(el).find('.brisk_locker').remove();
+		var root = $(el).closest('[role="block"]')
+		root.find('.brisk_locker').remove();
 	},
 
 	reload: function (e, el) {

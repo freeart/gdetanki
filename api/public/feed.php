@@ -13,6 +13,7 @@ class Feed extends Api
 					p.detail,
 					p."authorId",
 					p.pinned,
+					p.starred,
 					p.rating,
 					p.created,
 					json_agg((select x from (select c.id, c.detail, c."authorId", c.created) x)) "comments"

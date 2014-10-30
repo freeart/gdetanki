@@ -55,7 +55,7 @@ class Request extends Api
 			return floatval(str_replace(',', '.', $val));
 
 		if ($type == 'boolean')
-			return !empty($val);
+			return (bool)$val;
 
 		if ($type == 'email') {
 			if (filter_var($val, FILTER_VALIDATE_EMAIL))

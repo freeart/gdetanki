@@ -1,4 +1,7 @@
-<div class="feed-wrap">
+<div class="feed-wrap {if ($post.pinned)}pinned{/if}" role="block" data-id="{$post.id}">
+    {if ($post.pinned)}
+        <div class="post-label"><span class="btn-post-label">Закрепленный пост</span></div>
+    {/if}
     <div class="feed-header">
         <div class="row">
             <div class="col-md-8">
@@ -27,14 +30,31 @@
         {$post.detail.body}
     </div>
     <div class="feed-footer">
-        <div class="social-bar pull-right">
-            <i class="fa fa-minus-circle fa-2x" id="red"></i>
-            <span>&nbsp;{$post.rating}&nbsp;</span>
-            <i class="fa fa-plus-circle fa-2x" id="green"></i>
-        </div>
-        <a class="btn btn-vk pull-right" href="#">
-            Поделиться <i class="fa fa-vk fa-lg"></i></a>
-    </div>
-    <!-- .feed-content -->
+        <a href="{$this->users->logged("/post/{$post.id}")}" class="btn btn-read-more">
+            Читать дальше
+        </a>
+
+		{if $this->users->logged()}
+			<div class="social-bar pull-right">
+				<i action="/api/users/rating" data-value="-1" class="fa fa-minus-circle fa-2x" id="red"></i>
+				<span>{$post.rating}</span>
+				<i action="/api/users/rating" data-value="1" class="fa fa-plus-circle fa-2x" id="green"></i>
+			</div>
+		{/if}
+		<a class="btn btn-vk pull-right" href="#">
+			Поделиться <i class="fa fa-vk fa-lg"></i></a>
+	</div>
+	{if $this->users->logged()}
+		<div class="speed-menu">
+			<ul>
+				<li data-value="{if !!$post.pinned}0{else}1{/if}" action="/api/users/pin" class="pinned-btn text-center"><span class="fa {if !!$post.pinned}text-muted{/if} fa-thumb-tack fa-3x"></span></li>
+				<li data-value="{if !!$post.starred}0{else}1{/if}" action="/api/users/star" class="starred-btn text-center"><span class="fa {if !!$post.starred}text-muted{/if} fa-star fa-3x"></span></li>
+				<li class="separation"></li>
+				<li action="/api/users/editpost" class="edit-btn text-center"><span class="fa fa-pencil fa-3x"></span></li>
+				<li action="/api/users/removepost" class="remove-btn text-center"><span class="fa fa-trash fa-3x"></span></li>
+			</ul>
+		</div>
+	{/if}
+	<!-- .feed-content -->
 </div>
 <!-- .feed-wrap -->

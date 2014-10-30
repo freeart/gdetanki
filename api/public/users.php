@@ -111,18 +111,73 @@ class Users extends Api
 		$bulk[1] = $bulk[1] === null ? 2 : $bulk[1];
 
 		if ($bulk[0] != $value && $bulk[1] > 0) {
-							$value = $bulk[1] == 1 ? $value * 2 : $value;
+			$value = $bulk[1] == 1 ? $value * 2 : $value;
 
 			$this->redis->hmset('users:' . $this->current->id . ':rating:' . $id, 'v', $value, 'r', $bulk[1] - 1);
 			$rating = $this->post->rating($id, $value);
 			return array(
 				'[data-id=' . $id . '] .social-bar span' => array('mode' => 'replace', 'html' => $rating)
 			);
-		}else{
+		} else {
 			return array(
 				"error" => 1,
 				"message" => $bulk[1] == 1 ? "Вы можете только изменить голос (1 раз)" : "Вы уже голосовали"
 			);
 		}
+	}
+
+	public function pin()
+	{
+		$id = $this->request->get('id', 'integer');
+		$value = $this->request->get('value', 'boolean');
+
+		$result = $this->post->pin($id, $value);
+
+		return array(
+			"error" => $value == $result ? 0 : 1,
+			"result" => $result
+		);
+	}
+
+	public function star()
+	{
+		$id = $this->request->get('id', 'integer');
+		$value = $this->request->get('value', 'boolean');
+
+		$result = $this->post->star($id, $value);
+
+		return array(
+			"error" => $value == $result ? 0 : 1,
+			"result" => $result
+		);
+	}
+
+	public function editpost()
+	{
+		$id = $this->request->get('id', 'integer');
+
+		$this->template->assign('this', $this);
+		$this->template->assign('post', $this->post->get($id));
+
+		$this->template->fetch('functions.tpl');
+
+		return array(
+			".feed-wrap[data-id=$id]" => array(
+				"mode" => "replaceWith",
+				"html" => $this->template->fetch("block/post/edit.tpl")
+			)
+		);
+	}
+
+	public function removepost()
+	{
+		$id = $this->request->get('id', 'integer');
+
+		$result = $this->post->remove($id);
+
+		return array(
+			"error" => $result === true ? 0 : 1,
+			"result" => $result
+		);
 	}
 }

@@ -7,7 +7,8 @@ class Post extends Api
 		parent::__construct();
 	}
 
-	public function rating($id, $value){
+	public function rating($id, $value)
+	{
 		$sql = 'update posts set rating = rating + (:value) where id = :post_id returning rating';
 
 		$sth = $this->db->prepare($sql);
@@ -30,6 +31,7 @@ class Post extends Api
 					p.detail,
 					p."authorId",
 					p.pinned,
+					p.starred,
 					p.rating,
 					p.created,
 					json_agg((select x from (select c.id, c.detail, c."authorId", c.created) x)) "comments"
@@ -63,5 +65,63 @@ class Post extends Api
 		$sth->closeCursor();
 
 		return $data;
+	}
+
+	public function pin($id, $value)
+	{
+		$sql = 'update posts set pinned = :value where id = :post_id returning pinned';
+
+		$sth = $this->db->prepare($sql);
+
+		$sth->bindParam(':post_id', $id, PDO::PARAM_INT);
+		$sth->bindParam(':value', $value, PDO::PARAM_BOOL);
+
+		$sth->execute();
+
+		$data = $sth->fetch(PDO::FETCH_ASSOC);
+
+		$sth->closeCursor();
+
+		return $data["pinned"] == 'true' ? true : false;
+	}
+
+	public function star($id, $value)
+	{
+		$sql = 'update posts set starred = :value where id = :post_id returning starred';
+
+		$sth = $this->db->prepare($sql);
+
+		$sth->bindParam(':post_id', $id, PDO::PARAM_INT);
+		$sth->bindParam(':value', $value, PDO::PARAM_BOOL);
+
+		$sth->execute();
+
+		$data = $sth->fetch(PDO::FETCH_ASSOC);
+
+		$sth->closeCursor();
+
+		return $data["starred"] == 'true' ? true : false;
+	}
+
+	public function edit($id, $detail)
+	{
+
+	}
+
+	public function remove($id)
+	{
+		$sql = 'update posts set deleted = true where id = :post_id returning deleted';
+
+		$sth = $this->db->prepare($sql);
+
+		$sth->bindParam(':post_id', $id, PDO::PARAM_INT);
+
+		$sth->execute();
+
+		$data = $sth->fetch(PDO::FETCH_ASSOC);
+
+		$sth->closeCursor();
+
+		return $data["deleted"] == 'true' ? true : false;
 	}
 }

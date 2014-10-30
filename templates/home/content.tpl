@@ -9,7 +9,7 @@
             {call include_ex file='block/menu/feed-menu'}
 
             {foreach from=$posts item=post}
-                {call include_ex file='block/feed/post'}
+                {call include_ex file='block/post/post'}
             {/foreach}
 
         </div>

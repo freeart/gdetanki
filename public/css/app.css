@@ -84,6 +84,18 @@ body {
     background: url('/img/bg-promo.jpg') 0 0 repeat-x;
 }
 
+#category-menu li a {
+    background: url('/img/hdl-1.jpg') 0 0 repeat-x;
+    color: #666666;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+#category-menu li.active a {
+    background: url('/img/bg-promo.jpg') 0 0 repeat-x;
+}
+
+
 .feed-wrap {
     position: relative;
     margin-top: 40px;

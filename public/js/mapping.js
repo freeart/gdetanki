@@ -1,6 +1,7 @@
 var registration = {}
 var home = {}
 var post = {}
+var category = {}
 
 var common = {
 	'boot': ['plugins.timeago'],

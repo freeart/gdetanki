@@ -46,7 +46,7 @@ class Users extends Api
 	public function category()
 	{
 		$category = $this->request->get('category', 'string');
-		$normalCategory = mb_strtolower(trim($category));
+		$normalCategory = trim($category);
 
 		return $this->feed->get("where p.detail->'category' = '" . $normalCategory . "' and p.deleted = false");
 	}
@@ -238,9 +238,9 @@ class Users extends Api
 		$title = $this->request->post('title', 'inject');
 		$body = $this->request->post('body');
 
-		$normalCategory = mb_strtolower(trim($category));
-
-		if (!empty($title) && !empty($body)) {
+		$normalCategory = trim($category);
+		
+		if (!empty($title) && !empty($body) && !empty($normalCategory)) {
 			if ($id > 0) {
 				$result = $this->post->edit($id, array("title" => $title, "body" => $body, "category" => $normalCategory));
 			} else {

@@ -35,12 +35,12 @@ class Users extends Api
 		$filter = $this->request->get('filter', 'string');
 
 		$map = array(
-			'top' => 'where p.starred is true',
-			'new' => 'where p.created::date = CURRENT_DATE',
-			'hot' => 'where p.rating > 9'
+			'top' => 'where p.starred is true and p.deleted = false',
+			'new' => 'where p.created::date = CURRENT_DATE and p.deleted = false',
+			'hot' => 'where p.rating > 9 and p.deleted = false'
 		);
 
-		return $this->feed->get(array_key_exists($filter, $map) ? $map[$filter] : '');
+		return $this->feed->get(array_key_exists($filter, $map) ? $map[$filter] : 'where p.deleted = false');
 	}
 
 	public function logged($str = null)
@@ -135,6 +135,7 @@ class Users extends Api
 
 		return array(
 			"error" => $value == $result ? 0 : 1,
+			".wrapper[data-id=$id] .pinned-btn span, .wrapper[data-id=$id] .pinned-btn i" => array('mode' => 'swapClass', 'class' => 'text-muted'),
 			"result" => $result
 		);
 	}
@@ -148,8 +149,36 @@ class Users extends Api
 
 		return array(
 			"error" => $value == $result ? 0 : 1,
+			".wrapper[data-id=$id] .starred-btn span, .wrapper[data-id=$id] .starred-btn i" => array('mode' => 'swapClass', 'class' => 'text-muted'),
 			"result" => $result
 		);
+	}
+
+	public function revertpost()
+	{
+		$id = $this->request->get('id', 'integer');
+
+		$this->template->assign('this', $this);
+		if ($id > 0) {
+			$this->template->assign('post', $this->post->get($id));
+		}
+
+		$this->template->fetch('functions.tpl');
+
+		$data = array();
+
+		if ($id > 0) {
+			$data[".wrapper[data-id=$id]"] = array(
+				"mode" => "replaceWith",
+				"html" => $this->template->fetch("block/post/post.tpl")
+			);
+		} else {
+			$data[".wrapper[data-id=new]"] = array(
+				"mode" => "delete"
+			);
+		}
+
+		return $data;
 	}
 
 	public function editpost()
@@ -157,16 +186,27 @@ class Users extends Api
 		$id = $this->request->get('id', 'integer');
 
 		$this->template->assign('this', $this);
-		$this->template->assign('post', $this->post->get($id));
+		if ($id > 0) {
+			$this->template->assign('post', $this->post->get($id));
+		}
 
 		$this->template->fetch('functions.tpl');
 
-		return array(
-			".feed-wrap[data-id=$id]" => array(
+		$data = array();
+
+		if ($id > 0) {
+			$data[".wrapper[data-id=$id]"] = array(
 				"mode" => "replaceWith",
 				"html" => $this->template->fetch("block/post/edit.tpl")
-			)
-		);
+			);
+		} else {
+			$data["#feed-menu"] = array(
+				"mode" => "after",
+				"html" => $this->template->fetch("block/post/edit.tpl")
+			);
+		}
+
+		return $data;
 	}
 
 	public function removepost()
@@ -177,7 +217,53 @@ class Users extends Api
 
 		return array(
 			"error" => $result === true ? 0 : 1,
+			".wrapper[data-id=$id]" => array('mode' => 'delete'),
 			"result" => $result
 		);
+	}
+
+	public function savepost()
+	{
+		$id = $this->request->post('id', 'integer');
+
+		$category = $this->request->post('category', 'inject');
+		$title = $this->request->post('title', 'inject');
+		$body = $this->request->post('body');
+
+		if (!empty($title) && !empty($body)) {
+			if ($id > 0) {
+				$result = $this->post->edit($id, array("title" => $title, "body" => $body, "category" => $category));
+			} else {
+				$result = $this->post->add(array("title" => $title, "body" => $body, "category" => $category));
+			}
+
+			$this->template->assign('this', $this);
+			$this->template->assign('post', $this->post->get($result));
+
+			$this->template->fetch('functions.tpl');
+		}else{
+			$result = null;
+		}
+
+		$data = array(
+			"error" => $result > 0 ? 0 : 1,
+			"result" => $result
+		);
+
+		if ($result > 0) {
+			if ($id > 0) {
+				$data[".wrapper[data-id=$result]"] = array(
+					"mode" => "replaceWith",
+					"html" => $this->template->fetch("block/post/post.tpl")
+				);
+			} else {
+				$data[".wrapper[data-id=new]"] = array(
+					"mode" => "replaceWith",
+					"html" => $this->template->fetch("block/post/post.tpl")
+				);
+			}
+		}
+
+		return $data;
 	}
 }

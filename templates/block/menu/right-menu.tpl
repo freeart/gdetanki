@@ -1,7 +1,7 @@
-<ul class="nav" id="right-menu">
+<ul role="block" class="nav" id="right-menu">
 	{if $this->users->logged()}
-			<li style="margin-bottom: 4px"><a role="block" class="btn-signout" action="/api/users/signout" href="#">Выход</a></li>
-			<li><a href="#">Добавить новость</a></li>
+			<li style="margin-bottom: 4px"><a class="btn-signout" action="/api/users/signout" href="#">Выход</a></li>
+			<li><a class="btn-addnews" action="/api/users/editpost" href="#">Добавить новость</a></li>
 	{/if}
 
 	{if !$this->users->logged()}

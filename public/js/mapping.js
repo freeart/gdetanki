@@ -1,7 +1,10 @@
 var registration = {}
 var home = {}
+var post = {}
 
 var common = {
+	'boot': ['plugins.timeago'],
+
 	'login-form': {
 		'.form-signin': {
 			submit: {
@@ -92,7 +95,57 @@ var common = {
 			}
 		},
 
+		'.save-btn': {
+			click: {
+				action: [
+					'common.preventDefault',
+					'common.lockForm',
+					'plugins.prepareHTMLData',
+					['common.dataGrabber', 'common.formGrabber'],
+					'common.dataConcat',
+					'common.log',
+					'common.send',
+					'common.log',
+					'common.verify',
+					'common.render',
+					'plugins.timeago'
+				],
+				always: 'common.unlockForm'
+			}
+		},
+
+		'.revert-btn': {
+			click: {
+				action: [
+					'common.preventDefault',
+					'common.lockForm',
+					'common.dataGrabber',
+					'common.send',
+					'common.log',
+					'common.verify',
+					'common.render',
+					'plugins.timeago'
+				],
+				always: 'common.unlockForm'
+			}
+		},
+
 		'.remove-btn': {
+			click: {
+				action: [
+					'common.preventDefault',
+					'common.lockForm',
+					'common.dataGrabber',
+					'common.send',
+					'common.log',
+					'common.verify',
+					'common.render'
+				],
+				always: 'common.unlockForm'
+			}
+		},
+
+		'.btn-addnews': {
 			click: {
 				action: [
 					'common.preventDefault',

@@ -38,6 +38,7 @@ class Post extends Api
 				from posts p
 				left outer join comments c on p.id = c."postId"
 				where p.id = :post_id
+				and p.deleted = false
 				group by p.id
 				order by p.created desc';
 
@@ -103,9 +104,46 @@ class Post extends Api
 		return $data["starred"] == 'true' ? true : false;
 	}
 
+	public function add($detail)
+	{
+		$this->db;
+
+		$hstoreType = new DB_Type_Pgsql_Hstore(new DB_Type_String());
+		$hstore_detail = $hstoreType->output($detail);
+
+		$sql = 'insert into posts (detail) values(\'' . $hstore_detail . '\'::hstore) returning id';
+
+		$sth = $this->db->prepare($sql);
+
+		$sth->execute();
+
+		$data = $sth->fetch(PDO::FETCH_ASSOC);
+
+		$sth->closeCursor();
+
+		return $data["id"];
+	}
+
 	public function edit($id, $detail)
 	{
+		$this->db;
 
+		$hstoreType = new DB_Type_Pgsql_Hstore(new DB_Type_String());
+		$hstore_detail = $hstoreType->output($detail);
+
+		$sql = 'update posts set detail = \'' . $hstore_detail . '\'::hstore where id = :post_id returning id';
+
+		$sth = $this->db->prepare($sql);
+
+		$sth->bindParam(':post_id', $id, PDO::PARAM_INT);
+
+		$sth->execute();
+
+		$data = $sth->fetch(PDO::FETCH_ASSOC);
+
+		$sth->closeCursor();
+
+		return $data["id"];
 	}
 
 	public function remove($id)

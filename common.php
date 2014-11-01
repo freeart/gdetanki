@@ -2,11 +2,11 @@
 
 function isMobile()
 {
-	if (defined('DESKTOP')){
+	if (defined('DESKTOP')) {
 		return false;
 	}
 
-	if (defined('MOBILE')){
+	if (defined('MOBILE')) {
 		return true;
 	}
 
@@ -14,10 +14,4 @@ function isMobile()
 		return true;
 	else
 		return false;
-}
-
-function catch_handler($error_level, $error_message,
-                      $error_file, $error_line, $error_context)
-{
-
 }

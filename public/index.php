@@ -4,7 +4,7 @@ include_once('../common.php');
 
 include_once('../core.php');
 
-ini_set('display_errors', 'On');
+ini_set('display_errors', 'Off');
 
 class Main extends Api
 {
@@ -25,8 +25,6 @@ class Main extends Api
         }
     }
 }
-
-set_error_handler('catch_handler', E_ALL & ~E_NOTICE & ~E_USER_NOTICE);
 
 $app = new Main();
 

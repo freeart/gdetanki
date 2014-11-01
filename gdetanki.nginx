@@ -44,6 +44,7 @@ server {
 
 	location ~ ^/api {
 		if (!-e $request_filename){
+			echo_read_request_body;
 			rewrite ^/([^/]*)/([^/]*)/([^/]*)/?(.*)$ /index.php?&c=$2&m=$3&$4&t=json;
 		}
 	}

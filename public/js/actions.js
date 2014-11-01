@@ -72,7 +72,7 @@ App.actions.common = {
 
 	render: function (e, el, prevArgs) {
 		var dfd = new $.Deferred(),
-			error = false;
+			error = prevArgs.error || false;
 
 		$.each(prevArgs, function (selector, config) {
 			var $target = $(selector);
@@ -84,6 +84,10 @@ App.actions.common = {
 			switch (config.mode) {
 				case 'replace':
 					$target.html(config.html);
+					break;
+
+				case 'swapClass':
+					$target.toggleClass(config.class);
 					break;
 
 				case 'replaceWith':
@@ -120,8 +124,8 @@ App.actions.common = {
 					window.location.reload();
 					break;
 
-				default:
-					error = true;
+				//default:
+				//	error = true;
 			}
 		});
 
@@ -196,12 +200,13 @@ App.actions.common = {
 
 		data['token'] = $('meta[name="token"]').attr('content');
 
+		var type = $(el).attr('method') ? $(el).attr('method').toUpperCase() : 'GET';
 		return $.ajax({
-			type: $(el).attr('method') ? $(el).attr('method').toUpperCase() : 'GET',
+			type: type,
 			data: prevArgs,
 			dataType: "json",
 			url: $(el).attr('action'),
-			contentType: "application/json; charset=" + ($(el).attr('accept-charset') ? $(el).attr('accept-charset').toLowerCase() : 'utf-8')
+			contentType: "application/" + (type == "POST" ? "x-www-form-urlencoded" : "json") + "; charset=" + ($(el).attr('accept-charset') ? $(el).attr('accept-charset').toLowerCase() : 'utf-8')
 		});
 	},
 
@@ -216,5 +221,15 @@ App.actions.common = {
 	autoselect: function (e, el, prevArgs) {
 		var copiedEl = $(el)[0];
 		copiedEl.setSelectionRange(0, 9999);
+	}
+}
+
+App.actions.plugins = {
+	timeago: function(){
+		$(".timeago").timeago();
+	},
+
+	prepareHTMLData: function(){
+		$('#summernote').val($('#summernote').code());
 	}
 }

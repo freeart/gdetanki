@@ -225,11 +225,18 @@ App.actions.common = {
 }
 
 App.actions.plugins = {
-	timeago: function(){
+	autocomplete: function () {
+		debugger;
+		$("[name=category]").autocomplete({
+			source: categories
+		});
+	},
+
+	timeago: function () {
 		$(".timeago").timeago();
 	},
 
-	prepareHTMLData: function(){
+	prepareHTMLData: function () {
 		$('#summernote').val($('#summernote').code());
 	}
 }

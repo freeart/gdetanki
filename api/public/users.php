@@ -46,8 +46,9 @@ class Users extends Api
 	public function category()
 	{
 		$category = $this->request->get('category', 'string');
+		$normalCategory = mb_strtolower(trim($category));
 
-		return $this->feed->get("where p.detail->'category' = '" . $category . "' and p.deleted = false");
+		return $this->feed->get("where p.detail->'category' = '" . $normalCategory . "' and p.deleted = false");
 	}
 
 	public function logged($str = null)
@@ -237,12 +238,9 @@ class Users extends Api
 		$title = $this->request->post('title', 'inject');
 		$body = $this->request->post('body');
 
-		$normalCategory = strtolower(trim($category));
+		$normalCategory = mb_strtolower(trim($category));
 
 		if (!empty($title) && !empty($body)) {
-			if ($this->redis->sismember('category', $normalCategory) == 1) {
-				$this->redis->sadd('category', $normalCategory);
-			}
 			if ($id > 0) {
 				$result = $this->post->edit($id, array("title" => $title, "body" => $body, "category" => $normalCategory));
 			} else {
@@ -275,6 +273,26 @@ class Users extends Api
 				);
 			}
 		}
+
+		return $data;
+	}
+
+	public function distCatalogs()
+	{
+		$sql = 'select DISTINCT detail->\'category\' as name
+				from posts';
+
+		$sth = $this->db->prepare($sql);
+
+		$sth->execute();
+
+		$data = [];
+
+		while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+			$data[] = "'" . $row['name'] . "'";
+		}
+
+		$sth->closeCursor();
 
 		return $data;
 	}

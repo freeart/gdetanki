@@ -90,7 +90,8 @@ var common = {
 					'common.send',
 					'common.log',
 					'common.verify',
-					'common.render'
+					'common.render',
+					'plugins.autocomplete'
 				],
 				always: 'common.unlockForm'
 			}

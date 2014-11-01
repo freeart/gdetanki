@@ -1,5 +1,4 @@
 {call include_ex file=$controller|cat:'/postcode'}
-{var_dump($this->users->distCatalogs())}
 {literal}
 	<script type="text/javascript">
 

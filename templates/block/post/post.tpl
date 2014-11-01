@@ -31,15 +31,17 @@
 			{$post.detail.body}
 		</div>
 		<div class="feed-footer">
-			{if !empty($post.detail.category)}
-				Категория:
-				<span class="category">{$post.detail.category}</span>
-			{/if}
 			{if $controller != 'post'}
 				<a href="{$this->users->logged("/post/{$post.id}")}" class="btn btn-read-more">
 					Читать дальше
 				</a>
 			{/if}
+            {if !empty($post.detail.category)}
+                <a href="/category/{$post.detail.category}" class="btn btn-info">
+                    {$post.detail.category}
+                </a>
+
+            {/if}
 			{if $this->users->logged()}
 				<div class="social-bar pull-right">
 					<i action="/api/users/rating" data-value="-1" class="fa fa-minus-circle fa-2x" id="red"></i>

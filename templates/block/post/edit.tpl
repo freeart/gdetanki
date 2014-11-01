@@ -9,9 +9,14 @@
 			<textarea class="input-block-level" id="summernote" name="body" rows="18">
 				{$post.detail.body}
 			</textarea>
-			<input class="form-control" name="category" type="text" value="{$post.detail.category}"
-				   placeholder="Категория">
+
 		</fieldset>
+
+        <div class="input-group margin-bottom-sm">
+            <span class="input-group-addon"><i class="fa fa-list fa-fw"></i></span>
+            <input class="form-control" name="category" type="text" value="{$post.detail.category}"
+                   placeholder="Категория">
+        </div>
 		<div class="footer">
 
 			{if !empty($post)}

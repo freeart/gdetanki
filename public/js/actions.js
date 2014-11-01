@@ -226,7 +226,6 @@ App.actions.common = {
 
 App.actions.plugins = {
 	autocomplete: function () {
-		debugger;
 		$("[name=category]").autocomplete({
 			source: categories
 		});

@@ -12,6 +12,8 @@
 				$(this).removeClass('animated bounceIn');
 			});
 
+			var categories = [{/literal}{implode(',', $this->redis->smembers('category'))}{literal}];
+
 			App.init({/literal}{$controller}{literal}, App.actions);
 			App.init(common, App.actions);
 		});

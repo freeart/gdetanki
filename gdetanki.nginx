@@ -24,6 +24,12 @@ server {
         }
     }
 
+    location ~ ^/category {
+        if (!-e $request_filename){
+            rewrite ^/([^/]*)/([^/]*)/?(.*)$ /index.php?c=category&category=$2&t=tpl&$3;
+        }
+    }
+
     location ~ ^/post {
         if (!-e $request_filename){
             rewrite ^/([^/]*)/([^/]*)/?(.*)$ /index.php?c=post&id=$2&t=tpl&$3;

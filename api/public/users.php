@@ -43,6 +43,13 @@ class Users extends Api
 		return $this->feed->get(array_key_exists($filter, $map) ? $map[$filter] : 'where p.deleted = false');
 	}
 
+	public function category()
+	{
+		$category = $this->request->get('category', 'string');
+
+		return $this->feed->get("where p.detail->'category' = '" . $category . "' and p.deleted = false");
+	}
+
 	public function logged($str = null)
 	{
 		if ($str) {
@@ -230,18 +237,23 @@ class Users extends Api
 		$title = $this->request->post('title', 'inject');
 		$body = $this->request->post('body');
 
+		$normalCategory = strtolower(trim($category));
+
 		if (!empty($title) && !empty($body)) {
+			if ($this->redis->sismember('category', $normalCategory) == 1) {
+				$this->redis->sadd('category', $normalCategory);
+			}
 			if ($id > 0) {
-				$result = $this->post->edit($id, array("title" => $title, "body" => $body, "category" => $category));
+				$result = $this->post->edit($id, array("title" => $title, "body" => $body, "category" => $normalCategory));
 			} else {
-				$result = $this->post->add(array("title" => $title, "body" => $body, "category" => $category));
+				$result = $this->post->add(array("title" => $title, "body" => $body, "category" => $normalCategory));
 			}
 
 			$this->template->assign('this', $this);
 			$this->template->assign('post', $this->post->get($result));
 
 			$this->template->fetch('functions.tpl');
-		}else{
+		} else {
 			$result = null;
 		}
 

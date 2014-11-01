@@ -13,7 +13,7 @@
 				$(this).removeClass('animated bounceIn');
 			});
 
-			window.categories = [{/literal}{implode(',', $this->users->distCatalogs())}{literal}];
+			window.categories = {/literal}{json_encode($this->users->distCatalogs())}{literal}
 
 			App.init({/literal}{$controller}{literal}, App.actions);
 			App.init(common, App.actions);

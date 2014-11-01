@@ -239,7 +239,7 @@ class Users extends Api
 		$body = $this->request->post('body');
 
 		$normalCategory = trim($category);
-		
+
 		if (!empty($title) && !empty($body) && !empty($normalCategory)) {
 			if ($id > 0) {
 				$result = $this->post->edit($id, array("title" => $title, "body" => $body, "category" => $normalCategory));
@@ -289,7 +289,7 @@ class Users extends Api
 		$data = [];
 
 		while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-			$data[] = "'" . $row['name'] . "'";
+			$data[] = $row['name'];
 		}
 
 		$sth->closeCursor();

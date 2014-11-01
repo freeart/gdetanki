@@ -6,7 +6,8 @@
         </div>
 		{assign var="posts" value=$this->users->category()}
         <div class="col-sm-12 col-md-9 col-md-pull-3">
-            {call include_ex file='block/menu/feed-menu'}
+
+            {call include_ex file='block/menu/category-menu'}
 
             {foreach from=$posts item=post}
                 {call include_ex file='block/post/post'}

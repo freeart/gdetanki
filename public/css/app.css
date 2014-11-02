@@ -188,7 +188,7 @@ html, body {
     border-radius: 0;
 }
 
-.form-signin {
+.form-signin, .form-registration {
     margin: 40px 0 20px;
 }
 
@@ -207,7 +207,7 @@ html, body {
     border-radius: 0;
 }
 
-.form-signin .btn-group .btn-group:first-child {
+.form-signin .btn-group .btn-group:first-child{
     padding-right: 5px;
 }
 
@@ -229,7 +229,7 @@ html, body {
 
 }
 
-.form-signin input, .form-edit-post input {
+.form-signin input, .form-edit-post input, .form-registration input {
     height: 38px;
     line-height: 38px;
     border-radius: 0;
@@ -244,12 +244,15 @@ html, body {
     line-height: 48px;
     font-size: 16px;
 }
+a.btn-signin, a.btn-signin:hover, a.btn-signin:active {
+    color: #333;
+}
 
-.form-signin .input-group, .form-edit-post .input-group {
+.form-signin .input-group, .form-edit-post .input-group, .form-registration .input-group {
     margin-bottom: 10px;
 }
 
-.form-signin .input-group-addon:first-child, .form-edit-post .input-group-addon:first-child {
+.form-signin .input-group-addon:first-child, .form-edit-post .input-group-addon:first-child, .form-registration .input-group-addon:first-child {
     border-radius: 0;
 }
 

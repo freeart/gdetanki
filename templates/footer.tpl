@@ -1,4 +1,5 @@
-<div id="footer" class="container-fluid">
+<div id="footer">
+    <div class="container-fluid">
         <span class="muted credit">
             © 2011-2014 Все права защищены и охраняются законом.
             По всем вопросам пишите на
@@ -7,4 +8,5 @@
                 tankiblog@gmail.com
             </a>
         </span>
+    </div>
 </div>

@@ -1,19 +1,20 @@
-body {
-
+html, body {
+ height: 100%;
 }
 
 #footer {
-    position: relative;
     background: url('/img/bg-head.jpg') 0 0 repeat;
     color: #92892a;
-    min-height: 60px;
-    margin-top: 20px;
 }
 
 #footer span {
     display: block;
     padding: 20px 0;
     margin: 0 20px;
+}
+
+#push, #footer {
+    height: 60px;
 }
 
 .wrap-banner {
@@ -339,6 +340,15 @@ body {
 .ui-menu-item:hover {
     background-color: rgba(50, 50, 50, 0.25);
 }
+
+#wrap {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -60px;
+}
+
+
 
 @media (min-width: 768px) {
 

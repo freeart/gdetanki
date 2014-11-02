@@ -11,16 +11,19 @@
 </head>
 <body>
 
-<div class="main-container">
+<div id="wrap">
     {call include_ex file='header'}
 
     {call include_ex file='content'}
+
+    <div id="push"></div>
+</div>
 
     {call include_ex file='footer'}
 
     {call include_ex file='popup'}
 
     {call include_ex file='postcode'}
-</div>
+
 </body>
 </html>

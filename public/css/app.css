@@ -199,6 +199,7 @@ html, body {
 
 .form-edit-post .footer
 {
+    height: 40px;
     margin: 10px 0;
 }
 

@@ -71,14 +71,15 @@
 			</div>
 		{/if}
 		<!-- .feed-content -->
+        {if $this->users->logged() && $controller == 'post' || $controller == null}
+
+                {foreach from=$post.comments item=comment}
+                    {call include_ex file='block/comment/comment'}
+                {/foreach}
+                {call include_ex file='block/comment/edit'}
+
+        {/if}
 	</div>
 	<!-- .feed-wrap -->
-	{if $this->users->logged() && $controller == 'post' || $controller == null}
-		<div class="comment-wrap">
-			{foreach from=$post.comments item=comment}
-				{call include_ex file='block/comment/comment'}
-			{/foreach}
-			{call include_ex file='block/comment/edit'}
-		</div>
-	{/if}
+
 </div>

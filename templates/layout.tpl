@@ -12,6 +12,7 @@
 <body>
 
 <div id="wrap">
+
     {call include_ex file='header'}
 
     {call include_ex file='content'}

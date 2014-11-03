@@ -1,5 +1,5 @@
 html, body {
- height: 100%;
+    height: 100%;
 }
 
 #footer {
@@ -15,7 +15,7 @@ html, body {
 
 #push, #footer {
     height: 60px;
-	margin-top: 20px;
+    margin-top: 20px;
 }
 
 .wrap-banner {
@@ -97,7 +97,6 @@ html, body {
     background: url('/img/bg-promo.jpg') 0 0 repeat-x;
 }
 
-
 .feed-wrap {
     position: relative;
     margin-top: 40px;
@@ -133,7 +132,7 @@ html, body {
     height: 44px;
 }
 
-.feed-footer .btn{
+.feed-footer .btn {
     border-radius: 0;
 }
 
@@ -189,6 +188,14 @@ html, body {
     border-radius: 0;
 }
 
+.form-comment textarea {
+    border-radius: 0;
+    min-height: 100px;
+}
+ .form-comment {
+     margin-top: 15px;
+ }
+
 .form-signin, .form-registration {
     margin: 40px 0 20px;
 }
@@ -197,8 +204,7 @@ html, body {
     margin: 20px 0;
 }
 
-.form-edit-post .footer
-{
+.form-edit-post .footer {
     height: 40px;
     margin: 10px 0;
 }
@@ -209,7 +215,7 @@ html, body {
     border-radius: 0;
 }
 
-.form-signin .btn-group .btn-group:first-child{
+.form-signin .btn-group .btn-group:first-child {
     padding-right: 5px;
 }
 
@@ -241,11 +247,12 @@ html, body {
     font-weight: 600;
 }
 
-.form-edit-post input{
+.form-edit-post input {
     height: 48px;
     line-height: 48px;
     font-size: 16px;
 }
+
 a.btn-signin, a.btn-signin:hover, a.btn-signin:active {
     color: #333;
 }
@@ -352,8 +359,6 @@ a.btn-signin, a.btn-signin:hover, a.btn-signin:active {
     height: 100%;
     margin: 0 auto -60px;
 }
-
-
 
 @media (min-width: 768px) {
 

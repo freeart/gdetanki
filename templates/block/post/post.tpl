@@ -41,13 +41,15 @@
 					{$post.detail.category}
 				</a>
 			{/if}
-			{if $this->users->logged()}
-				<div class="social-bar pull-right">
+			<div class="social-bar pull-right">
+				{if $this->users->logged()}
 					<i action="/api/users/rating" data-value="-1" class="fa fa-minus-circle fa-2x" id="red"></i>
-					<span>{$post.rating}</span>
+				{/if}
+				<span>{$post.rating}</span>
+				{if $this->users->logged()}
 					<i action="/api/users/rating" data-value="1" class="fa fa-plus-circle fa-2x" id="green"></i>
-				</div>
-			{/if}
+				{/if}
+			</div>
 			<a class="btn btn-vk pull-right" href="#">
 				Поделиться <i class="fa fa-vk fa-lg"></i></a>
 		</div>

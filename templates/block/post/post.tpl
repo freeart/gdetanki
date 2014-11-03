@@ -71,7 +71,7 @@
 			</div>
 		{/if}
 		<!-- .feed-content -->
-        {if $this->users->logged() && $controller == 'post' || $controller == null}
+        {if $this->users->logged() && $controller == 'post'}
 
                 {foreach from=$post.comments item=comment}
                     {call include_ex file='block/comment/comment'}

@@ -4,7 +4,7 @@ class Users extends Api
 {
 	private $current;
 
-	public function __construct($id)
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -54,7 +54,7 @@ class Users extends Api
 	public function logged($str = null)
 	{
 		if ($str) {
-			return !empty($this->current) ? $str : '/registration';
+			return !empty($this->current) ? $str : '/signin';
 		} else {
 			return !empty($this->current) && $this->current->id > 0;
 		}
@@ -69,11 +69,49 @@ class Users extends Api
 		);
 	}
 
+	public function registration()
+	{
+		$email = strtolower($this->request->get('email', 'email'));
+		$password = strtolower($this->request->get('password', 'enject'));
+		$profile = strtolower($this->request->get('profile'));
+
+		$checksum = md5($password . 'E4fgg656@#%uyghfddhghcv');
+
+		$sql = 'insert into	users (login, password) values (:login, :checksum) returning id';
+
+		$sth = $this->db->prepare($sql);
+
+		$sth->bindParam(':login', $email, PDO::PARAM_STR);
+		$sth->bindParam(':checksum', $checksum, PDO::PARAM_STR);
+
+		$sth->execute();
+
+		$data = $sth->fetch(PDO::FETCH_ASSOC);
+		$id = $data["id"];
+		if ($id > 0) {
+			$this->redis->set('users:' . $id . ':info', json_encode(json_decode($profile)));
+		}
+
+		$sth->closeCursor();
+
+		if ($id > 0) {
+			return array(
+				"body" => array("mode" => "redirect", "url" => "/signin"),
+				"data" => array("id" => $id)
+			);
+		} else {
+			return array(
+				"error" => 1,
+				"message" => "Ошибка регистрации"
+			);
+		}
+	}
+
 	public function signin()
 	{
 		$login = strtolower($this->request->get('login', 'enject'));
 		$password = $this->request->get('password', 'enject');
-		$checksum = md5($login . $password . 'E4fgg656@#%uyghfddhghcv');
+		$checksum = md5($password . 'E4fgg656@#%uyghfddhghcv');
 
 		$sql = 'select id
 				from users
@@ -132,6 +170,38 @@ class Users extends Api
 				"message" => $bulk[1] == 1 ? "Вы можете только изменить голос (1 раз)" : "Вы уже голосовали"
 			);
 		}
+	}
+
+	public function comment()
+	{
+		$post_id = $this->request->get('post_id', 'integer');
+		$text = $this->request->get('text', 'inject');
+		$author_id = $this->current->id;
+
+		$result = $this->post->comment($post_id, $author_id, $text);
+
+		$data = array(
+			"error" => $result->id > 0 ? 0 : 1,
+			"result" => $result
+		);
+
+		if ($result->id > 0) {
+			$this->template->assign('this', $this);
+			$this->template->assign('comment', $result);
+			$this->template->assign('post', array("id" => $post_id));
+			$this->template->fetch('functions.tpl');
+
+			$data[".wrapper[data-id=" . $post_id . "] .form-comment"] = array(
+				"mode" => "before",
+				"html" => $this->template->fetch("block/comment/comment.tpl")
+			);
+			$data[" .wrapper[data-id=" . $post_id . "] .form-comment"] = array(
+				"mode" => "replaceWith",
+				"html" => $this->template->fetch("block/comment/edit.tpl")
+			);
+		}
+
+		return $data;
 	}
 
 	public function pin()

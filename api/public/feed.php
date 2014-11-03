@@ -15,8 +15,7 @@ class Feed extends Api
 					p.pinned,
 					p.starred,
 					p.rating,
-					p.created,
-					json_agg((select x from (select c.id, c.detail, c."authorId", c.created) x)) "comments"
+					p.created
 				from posts p
 				left outer join comments c on p.id = c."postId"
 				 ' . $condition . '
@@ -37,12 +36,6 @@ class Feed extends Api
 			$row["detail"] = $hstoreType->input($row["detail"]);
 			$row["comments"] = json_decode($row["comments"]);
 			$row["author"] = json_decode($this->redis->get('users:' . $row["authorId"] . ':info'));
-			foreach ($row["comments"] as $key => $value) {
-				if ($value->id) {
-					$value->detail = $hstoreType->input($value->detail);
-					$value->author = json_decode($this->redis->get('users:' . $value->authorId . ':info'));
-				}
-			}
 			$data[] = $row;
 		}
 

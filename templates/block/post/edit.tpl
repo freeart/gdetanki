@@ -6,17 +6,17 @@
 				   placeholder="Заголовок поста">
 		</div>
 		<fieldset>
-			<textarea class="input-block-level" id="summernote" name="body" rows="18">
+			<textarea class="input-block-level summernote" name="body" rows="18">
 				{$post.detail.body}
 			</textarea>
 
 		</fieldset>
 
-        <div class="input-group margin-bottom-sm">
-            <span class="input-group-addon"><i class="fa fa-list fa-fw"></i></span>
-            <input class="form-control" name="category" type="text" value="{$post.detail.category}"
-                   placeholder="Категория">
-        </div>
+		<div class="input-group margin-bottom-sm">
+			<span class="input-group-addon"><i class="fa fa-list fa-fw"></i></span>
+			<input class="form-control" name="category" type="text" value="{$post.detail.category}"
+				   placeholder="Категория">
+		</div>
 		<div class="footer">
 
 			{if !empty($post)}
@@ -42,7 +42,7 @@
 	</form>
 	{literal}
 		<script type="text/javascript">
-			$('#summernote').summernote({
+			$('[data-id="{/literal}{if !empty($post)}{$post.id}{else}new{/if}{literal}"] .summernote').summernote({
 				height: "500px"
 			});
 			//			var postForm = function () {

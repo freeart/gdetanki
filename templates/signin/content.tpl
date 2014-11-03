@@ -5,7 +5,7 @@
 		</div>
 		<div class="col-sm-12 col-md-9 col-md-pull-3">
 
-			{call include_ex file='block/form/registration'}
+			{call include_ex file='block/form/login'}
 
 		</div>
 	</div>

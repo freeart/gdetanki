@@ -13,7 +13,7 @@
 			<button class="btn btn-signin" type="submit">Войти</button>
 		</div>
 		<div class="btn-group">
-			<button class="btn btn-signin" type="button">Регистрация</button>
+			<a class="btn btn-signin" href="/registration">Регистрация</a>
 		</div>
 	</div>
 </form>

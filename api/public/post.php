@@ -7,6 +7,32 @@ class Post extends Api
 		parent::__construct();
 	}
 
+	public function comment($post_id, $author_id, $text)
+	{
+		$sql = 'insert into comments ("postId", "authorId", text) values(:post_id, :author_id, :text) returning id, "authorId", text';
+
+		$sth = $this->db->prepare($sql);
+
+		$sth->bindParam(':post_id', $post_id, PDO::PARAM_INT);
+		$sth->bindParam(':author_id', $author_id, PDO::PARAM_INT);
+		$sth->bindParam(':text', $text, PDO::PARAM_STR);
+
+		$sth->execute();
+
+		$data = $sth->fetch(PDO::FETCH_ASSOC);
+
+		$sth->closeCursor();
+
+		$comment = new stdClass();
+		if ($data["id"]) {
+			$comment->id = $data["id"];
+			$comment->author = json_decode($this->redis->get('users:' . $data["authorId"] . ':info'));
+			$comment->text = $data["text"];
+		}
+
+		return $comment;
+	}
+
 	public function rating($id, $value)
 	{
 		$sql = 'update posts set rating = rating + (:value) where id = :post_id returning rating';
@@ -34,7 +60,7 @@ class Post extends Api
 					p.starred,
 					p.rating,
 					p.created,
-					json_agg((select x from (select c.id, c.detail, c."authorId", c.created) x)) "comments"
+					json_agg((select x from (select c.id, c.text, c."authorId", c.created) x)) "comments"
 				from posts p
 				left outer join comments c on p.id = c."postId"
 				where p.id = :post_id
@@ -58,7 +84,6 @@ class Post extends Api
 		$data["author"] = json_decode($this->redis->get('users:' . $data["authorId"] . ':info'));
 		foreach ($data["comments"] as $key => $value) {
 			if ($value->id) {
-				$value->detail = $hstoreType->input($value->detail);
 				$value->author = json_decode($this->redis->get('users:' . $value->authorId . ':info'));
 			}
 		}

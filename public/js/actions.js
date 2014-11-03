@@ -235,7 +235,8 @@ App.actions.plugins = {
 		$(".timeago").timeago();
 	},
 
-	prepareHTMLData: function () {
-		$('#summernote').val($('#summernote').code());
+	prepareHTMLData: function (e, el, prevArgs) {
+		var summernote = $(el).closest('[role=block]').find('.summernote');
+		summernote.val(summernote.code());
 	}
 }

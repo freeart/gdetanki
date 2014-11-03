@@ -14,8 +14,12 @@ server {
         rewrite ^/(/)?$ /index.php?c=home&t=tpl;
     }
 
+	location ~ ^/signin {
+        rewrite ^/([^/]*)/?(.*)$  /index.php?c=signin&t=tpl&$2;
+    }
+
 	location ~ ^/registration {
-        rewrite ^/([^/]*)/?(.*)$  /index.php?c=registration&t=tpl&$3;
+        rewrite ^/([^/]*)/?(.*)$  /index.php?c=registration&t=tpl&$2;
     }
 
 	location ~ ^/feed {

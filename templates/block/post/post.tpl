@@ -18,7 +18,7 @@
 							</a>
 
 							<div class="media-body text-right">
-								<h5 class="media-heading">{$post.author->nickname}</h5>
+								<h5 class="media-heading">{$post.author->screen_name}</h5>
 								<span title="{$post.created}" class="text-muted timeago"></span>
 							</div>
 						</li>
@@ -36,12 +36,11 @@
 					Читать дальше
 				</a>
 			{/if}
-            {if !empty($post.detail.category)}
-                <a href="/category/{$post.detail.category}" class="btn btn-info">
-                    {$post.detail.category}
-                </a>
-
-            {/if}
+			{if !empty($post.detail.category)}
+				<a href="/category/{$post.detail.category}" class="btn btn-info">
+					{$post.detail.category}
+				</a>
+			{/if}
 			{if $this->users->logged()}
 				<div class="social-bar pull-right">
 					<i action="/api/users/rating" data-value="-1" class="fa fa-minus-circle fa-2x" id="red"></i>
@@ -72,4 +71,12 @@
 		<!-- .feed-content -->
 	</div>
 	<!-- .feed-wrap -->
+	{if $this->users->logged() && $controller == 'post' || $controller == null}
+		<div class="comment-wrap">
+			{foreach from=$post.comments item=comment}
+				{call include_ex file='block/comment/comment'}
+			{/foreach}
+			{call include_ex file='block/comment/edit'}
+		</div>
+	{/if}
 </div>

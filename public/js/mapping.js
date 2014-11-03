@@ -1,10 +1,46 @@
-var registration = {}
+var registration = {
+	'registration': {
+		'.form-registration': {
+			submit: {
+				action: [
+					'common.preventDefault',
+					'common.lockForm',
+					['common.dataGrabber', 'common.formGrabber'],
+					'common.dataConcat',
+					'common.send',
+					'common.log',
+					'common.verify',
+					'common.render'
+				],
+				always: 'common.unlockForm'
+			}
+		}
+	}
+}
+var signin = {}
 var home = {}
 var post = {}
 var category = {}
 
 var common = {
 	'boot': ['plugins.timeago'],
+
+	'comments': {
+		'.form-comment':{
+			submit: {
+				action: [
+					'common.preventDefault',
+					'common.lockForm',
+					'common.formGrabber',
+					'common.send',
+					'common.log',
+					'common.verify',
+					'common.render'
+				],
+				always: 'common.unlockForm'
+			}
+		}
+	},
 
 	'login-form': {
 		'.form-signin': {

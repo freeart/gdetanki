@@ -22,10 +22,6 @@ server {
         rewrite ^/([^/]*)/?(.*)$  /index.php?c=registration&t=tpl&$2;
     }
 
-    location ~ ^/invite {
-        rewrite ^/([^/]*)/?(.*)$  /index.php?c=invite&t=tpl&$2;
-    }
-
 	location ~ ^/feed {
         if (!-e $request_filename){
             rewrite ^/([^/]*)/([^/]*)/?(.*)$ /index.php?c=home&filter=$2&t=tpl&$3;
@@ -34,7 +30,7 @@ server {
 
     location ~ ^/category {
         if (!-e $request_filename){
-            rewrite ^/([^/]*)/([^/]*)/?(.*)$ /index.php?c=category&category=$2&t=tpl&$3;
+            rewrite ^/([^/]*)/([^/]*)/?(.*)$ /index.php?c=category&filter=category&name=$2&t=tpl&$3;
         }
     }
 

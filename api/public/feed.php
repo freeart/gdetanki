@@ -7,6 +7,31 @@ class Feed extends Api
 		parent::__construct();
 	}
 
+	public function count($condition)
+	{
+		$sql = 'select count(p.id) as count
+				from posts p
+				 ' . $condition;
+
+		$sth = $this->db->prepare($sql);
+
+		$sth->execute();
+
+		$row = $sth->fetch(PDO::FETCH_ASSOC);
+
+		$sth->closeCursor();
+
+		if ($row['count'] == 0) {
+			return 0;
+		} else {
+			if ($row['count'] % 10 > 0) {
+				return floor($row['count'] / 10) + 1;
+			} else {
+				return floor($row['count'] / 10);
+			}
+		}
+	}
+
 	public function get($condition, $page)
 	{
 		$offset = ($page - 1) * 10;

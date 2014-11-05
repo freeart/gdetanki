@@ -83,6 +83,10 @@ class Request extends Api
 		return $val;
 	}
 
+    public function getCurrentUrl(){
+        return "//".$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI];
+    }
+
 	public function get($name, $type = null, $format = null)
 	{
 		$val = null;

@@ -7,8 +7,10 @@ class Feed extends Api
 		parent::__construct();
 	}
 
-	public function get($condition)
+	public function get($condition, $page)
 	{
+		$offset = ($page - 1) * 10;
+
 		$sql = 'select p.id,
 					p.detail,
 					p."authorId",
@@ -21,9 +23,13 @@ class Feed extends Api
 				left outer join comments c on p.id = c."postId"
 				 ' . $condition . '
 				group by p.id
-				order by p.pinned desc, p.created desc';
+				order by p.pinned desc, p.created desc
+				limit 10 offset :offset
+				';
 
 		$sth = $this->db->prepare($sql);
+
+		$sth->bindParam(':offset', $offset, PDO::PARAM_INT);
 
 		$sth->execute();
 

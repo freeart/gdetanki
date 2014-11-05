@@ -34,13 +34,16 @@ class Users extends Api
 	{
 		$filter = $this->request->get('filter', 'string');
 
+		$page = $this->request->get('page', 'integer');
+		$page = $page > 0 ? $page : 1;
+
 		$map = array(
 			'top' => 'where p.starred is true and p.deleted = false',
 			'new' => 'where p.created::date = CURRENT_DATE and p.deleted = false',
 			'hot' => 'where p.rating > 9 and p.deleted = false'
 		);
 
-		return $this->feed->get(array_key_exists($filter, $map) ? $map[$filter] : 'where p.deleted = false');
+		return $this->feed->get(array_key_exists($filter, $map) ? $map[$filter] : 'where p.deleted = false', $page);
 	}
 
 	public function category()
@@ -48,7 +51,9 @@ class Users extends Api
 		$category = $this->request->get('category', 'string');
 		$normalCategory = $this->trans->toCyr(trim($category));
 
-		return $this->feed->get("where p.detail->'category' = '" . $normalCategory . "' and p.deleted = false");
+		$page = $this->request->get('page', 'integer');
+
+		return $this->feed->get("where p.detail->'category' = '" . $normalCategory . "' and p.deleted = false", $page);
 	}
 
 	public function logged($str = null)

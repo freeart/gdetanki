@@ -44,4 +44,22 @@ class Feed extends Api
 
 		return $data;
 	}
+
+    public function getPagination($page = 1, $pages = 1)
+    {
+
+        $start_range = $page - floor(7 / 2);
+        $end_range = $page + floor(7 / 2);
+        if ($start_range <= 0) {
+            $end_range += abs($start_range) + 1;
+            $start_range = 1;
+        }
+        if ($end_range > $pages) {
+            $start_range -= $end_range - $pages;
+            $end_range = $pages;
+        }
+        $range = range($start_range, $end_range);
+
+        return $range;
+    }
 }

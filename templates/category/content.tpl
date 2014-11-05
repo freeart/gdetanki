@@ -4,7 +4,7 @@
             {call include_ex file='block/menu/right-menu'}
             {call include_ex file='block/banner/img-banner'}
         </div>
-		{assign var="posts" value=$this->users->category()}
+		{assign var="posts" value=$this->users->feed()}
         <div class="col-sm-12 col-md-9 col-md-pull-3">
 
             {call include_ex file='block/menu/category-menu'}

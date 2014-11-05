@@ -30,25 +30,37 @@ class Users extends Api
 		return $this->post->get($postId);
 	}
 
-	public function feed()
+	public function feedCount()
 	{
 		$filter = $this->request->get('filter', 'string');
+		$name = $this->request->get('name', 'string');
 
 		$map = array(
 			'top' => 'where p.starred is true and p.deleted = false',
 			'new' => 'where p.created::date = CURRENT_DATE and p.deleted = false',
-			'hot' => 'where p.rating > 9 and p.deleted = false'
+			'hot' => 'where p.rating > 9 and p.deleted = false',
+			'category' => "where p.detail->'category' = '" . $name . "' and p.deleted = false"
 		);
 
-		return $this->feed->get(array_key_exists($filter, $map) ? $map[$filter] : 'where p.deleted = false');
+		return $this->feed->count(array_key_exists($filter, $map) ? $map[$filter] : 'where p.deleted = false');
 	}
 
-	public function category()
+	public function feed()
 	{
-		$category = $this->request->get('category', 'string');
-		$normalCategory = $this->trans->toCyr(trim($category));
+		$filter = $this->request->get('filter', 'string');
+		$name = $this->request->get('name', 'string');
 
-		return $this->feed->get("where p.detail->'category' = '" . $normalCategory . "' and p.deleted = false");
+		$page = $this->request->get('page', 'integer');
+		$page = $page > 0 ? $page : 1;
+
+		$map = array(
+			'top' => 'where p.starred is true and p.deleted = false',
+			'new' => 'where p.created::date = CURRENT_DATE and p.deleted = false',
+			'hot' => 'where p.rating > 9 and p.deleted = false',
+			'category' => "where p.detail->'category' = '" . $name . "' and p.deleted = false"
+		);
+
+		return $this->feed->get(array_key_exists($filter, $map) ? $map[$filter] : 'where p.deleted = false', $page);
 	}
 
 	public function logged($str = null)
@@ -274,7 +286,8 @@ class Users extends Api
 		);
 	}
 
-	public function comment_enabled(){
+	public function comment_enabled()
+	{
 		$id = $this->request->get('id', 'integer');
 		$value = $this->request->get('value', 'boolean');
 

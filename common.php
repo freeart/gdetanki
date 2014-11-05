@@ -15,3 +15,4 @@ function isMobile()
 	else
 		return false;
 }
+

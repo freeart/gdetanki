@@ -7,11 +7,11 @@
 		{assign var="posts" value=$this->users->feed()}
         <div class="col-sm-12 col-md-9 col-md-pull-3">
             {call include_ex file='block/menu/feed-menu'}
-
+            {call include_ex file='block/menu/pagination'}
             {foreach from=$posts item=post}
                 {call include_ex file='block/post/post'}
             {/foreach}
-
+            {call include_ex file='block/menu/pagination'}
         </div>
     </div>
 </div>

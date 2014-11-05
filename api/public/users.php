@@ -46,7 +46,7 @@ class Users extends Api
 	public function category()
 	{
 		$category = $this->request->get('category', 'string');
-		$normalCategory = trim($category);
+		$normalCategory = $this->trans->toCyr(trim($category));
 
 		return $this->feed->get("where p.detail->'category' = '" . $normalCategory . "' and p.deleted = false");
 	}
@@ -73,26 +73,68 @@ class Users extends Api
 	{
 		$email = strtolower($this->request->get('email', 'email'));
 		$password = strtolower($this->request->get('password', 'enject'));
-		$profile = strtolower($this->request->get('profile'));
+		$refer = $this->request->get('refer');
+		$profile = $this->request->get('profile');
+
+		$profile = json_decode($profile);
 
 		$checksum = md5($password . 'E4fgg656@#%uyghfddhghcv');
 
-		$sql = 'insert into	users (login, password) values (:login, :checksum) returning id';
+		$id = null;
 
-		$sth = $this->db->prepare($sql);
+		if (!empty($email) && !empty($password) && !empty($refer) && gettype($profile) == "object") {
+			$gameId = null;
+			if (stripos($refer, '.swf')) {
+				$matches = null;
+				$returnValue = preg_match_all('#hash=(.*)&#sU', $refer, $matches);
+				if ($returnValue > 0) {
+					$gameId = $matches[1][0];
+				}
+			} else if (stripos($refer, 'friend=')) {
+				$returnValue = parse_url($refer, PHP_URL_FRAGMENT);
+				parse_str($returnValue);
+				if (isset($friend)) {
+					$gameId = $friend;
+				}
+			} else if (stripos($refer, '.xml')) {
+				$returnValue = basename($refer, ".xml");
+				if (strlen($returnValue) > 0) {
+					$gameId = $returnValue;
+				}
+			}
 
-		$sth->bindParam(':login', $email, PDO::PARAM_STR);
-		$sth->bindParam(':checksum', $checksum, PDO::PARAM_STR);
+			if (strlen($gameId) > 0) {
+				$xmlraw = file_get_contents("http://tankionline.com/referer/" . $gameId . ".xml");
+				if (!empty($xmlraw)) {
+					$idIsCorrect = preg_match_all('#<callsign>(.*)</callsign>#sU', $xmlraw, $callsign);
+					preg_match_all('#<rank>(.*)</rank>#sU', $xmlraw, $rank);
+					preg_match_all('#<scores>(.*)</scores>#sU', $xmlraw, $scores);
 
-		$sth->execute();
+					$profile->game_user = $callsign[1][0];
+					$profile->game_rank = $rank[1][0];
+					$profile->game_scores = $scores[1][0];
 
-		$data = $sth->fetch(PDO::FETCH_ASSOC);
-		$id = $data["id"];
-		if ($id > 0) {
-			$this->redis->set('users:' . $id . ':info', json_encode(json_decode($profile)));
+					if ($idIsCorrect) {
+						$sql = 'insert into	users (login, password) values (:login, :checksum) returning id';
+
+						$sth = $this->db->prepare($sql);
+
+						$sth->bindParam(':login', $email, PDO::PARAM_STR);
+						$sth->bindParam(':checksum', $checksum, PDO::PARAM_STR);
+
+						$sth->execute();
+
+						$data = $sth->fetch(PDO::FETCH_ASSOC);
+						$id = $data["id"];
+						if ($id > 0) {
+							$this->redis->set('users:' . $id . ':info', json_encode($profile));
+						}
+
+						$sth->closeCursor();
+					}
+				}
+			}
 		}
-
-		$sth->closeCursor();
 
 		if ($id > 0) {
 			return array(
@@ -160,7 +202,7 @@ class Users extends Api
 			$value = $bulk[1] == 1 ? $value * 2 : $value;
 
 			$this->redis->hmset('users:' . $this->current->id . ':rating:' . $id, 'v', $value, 'r', $bulk[1] - 1);
-			$rating = $this->post->rating($id, $value);
+			$rating = $this->post->rating($this->current->id, $id, $value);
 			return array(
 				'[data-id=' . $id . '] .social-bar span' => array('mode' => 'replace', 'html' => $rating)
 			);
@@ -209,7 +251,7 @@ class Users extends Api
 		$id = $this->request->get('id', 'integer');
 		$value = $this->request->get('value', 'boolean');
 
-		$result = $this->post->pin($id, $value);
+		$result = $this->post->pin($this->current->id, $id, $value);
 
 		return array(
 			"error" => $value == $result ? 0 : 1,
@@ -223,11 +265,24 @@ class Users extends Api
 		$id = $this->request->get('id', 'integer');
 		$value = $this->request->get('value', 'boolean');
 
-		$result = $this->post->star($id, $value);
+		$result = $this->post->star($this->current->id, $id, $value);
 
 		return array(
 			"error" => $value == $result ? 0 : 1,
 			".wrapper[data-id=$id] .starred-btn span, .wrapper[data-id=$id] .starred-btn i" => array('mode' => 'swapClass', 'class' => 'text-muted'),
+			"result" => $result
+		);
+	}
+
+	public function comment_enabled(){
+		$id = $this->request->get('id', 'integer');
+		$value = $this->request->get('value', 'boolean');
+
+		$result = $this->post->comment_enabled($this->current->id, $id, $value);
+
+		return array(
+			"error" => $value == $result ? 0 : 1,
+			".wrapper[data-id=$id] .comment-enabled-btn span, .wrapper[data-id=$id] .comment-enabled-bth i" => array('mode' => 'swapClass', 'class' => 'text-muted'),
 			"result" => $result
 		);
 	}
@@ -291,7 +346,7 @@ class Users extends Api
 	{
 		$id = $this->request->get('id', 'integer');
 
-		$result = $this->post->remove($id);
+		$result = $this->post->remove($this->current->id, $id);
 
 		return array(
 			"error" => $result === true ? 0 : 1,
@@ -312,9 +367,9 @@ class Users extends Api
 
 		if (!empty($title) && !empty($body) && !empty($normalCategory)) {
 			if ($id > 0) {
-				$result = $this->post->edit($id, array("title" => $title, "body" => $body, "category" => $normalCategory));
+				$result = $this->post->edit($this->current->id, $id, array("title" => $title, "body" => $body, "category" => $normalCategory));
 			} else {
-				$result = $this->post->add(array("title" => $title, "body" => $body, "category" => $normalCategory));
+				$result = $this->post->add($this->current->id, array("title" => $title, "body" => $body, "category" => $normalCategory));
 			}
 
 			$this->template->assign('this', $this);

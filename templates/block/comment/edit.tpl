@@ -4,7 +4,7 @@
              style="height: 50px; width: 50px;">
 
         <div class="media-body">
-            <h4 class="media-heading">{$this->users->profile()->screen_name}</h4>
+            <h4 class="media-heading">{$this->users->profile()->game_user}</h4>
 
             <input type="hidden" name="post_id" value="{$post.id}">
 

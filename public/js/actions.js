@@ -240,3 +240,9 @@ App.actions.plugins = {
 		summernote.val(summernote.code());
 	}
 }
+
+App.actions.other = {
+	result2value: function(e, el, prevArgs){
+		$(el).data('value', prevArgs.result ? 0 : 1);
+	}
+}

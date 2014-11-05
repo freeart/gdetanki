@@ -15,7 +15,8 @@ class Feed extends Api
 					p.pinned,
 					p.starred,
 					p.rating,
-					p.created
+					p.created,
+					p.comment_enabled
 				from posts p
 				left outer join comments c on p.id = c."postId"
 				 ' . $condition . '

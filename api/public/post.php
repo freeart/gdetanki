@@ -33,8 +33,10 @@ class Post extends Api
 		return $comment;
 	}
 
-	public function rating($id, $value)
+	public function rating($userId, $id, $value)
 	{
+		if (empty($userId)) return null;
+
 		$sql = 'update posts set rating = rating + (:value) where id = :post_id returning rating';
 
 		$sth = $this->db->prepare($sql);
@@ -60,6 +62,7 @@ class Post extends Api
 					p.starred,
 					p.rating,
 					p.created,
+					p.comment_enabled,
 					json_agg((select x from (select c.id, c.text, c."authorId", c.created) x)) "comments"
 				from posts p
 				left outer join comments c on p.id = c."postId"
@@ -93,8 +96,10 @@ class Post extends Api
 		return $data;
 	}
 
-	public function pin($id, $value)
+	public function pin($userId, $id, $value)
 	{
+		if (empty($userId)) return null;
+
 		$sql = 'update posts set pinned = :value where id = :post_id returning pinned';
 
 		$sth = $this->db->prepare($sql);
@@ -111,8 +116,10 @@ class Post extends Api
 		return $data["pinned"] == 'true' ? true : false;
 	}
 
-	public function star($id, $value)
+	public function star($userId, $id, $value)
 	{
+		if (empty($userId)) return null;
+
 		$sql = 'update posts set starred = :value where id = :post_id returning starred';
 
 		$sth = $this->db->prepare($sql);
@@ -129,16 +136,20 @@ class Post extends Api
 		return $data["starred"] == 'true' ? true : false;
 	}
 
-	public function add($detail)
+	public function add($userId, $detail)
 	{
+		if (empty($userId)) return null;
+
 		$this->db;
 
 		$hstoreType = new DB_Type_Pgsql_Hstore(new DB_Type_String());
 		$hstore_detail = $hstoreType->output($detail);
 
-		$sql = 'insert into posts (detail) values(\'' . $hstore_detail . '\'::hstore) returning id';
+		$sql = 'insert into posts (detail, "authorId") values(\'' . $hstore_detail . '\'::hstore, :author_id) returning id';
 
 		$sth = $this->db->prepare($sql);
+
+		$sth->bindParam(':author_id', $userId, PDO::PARAM_INT);
 
 		$sth->execute();
 
@@ -149,8 +160,10 @@ class Post extends Api
 		return $data["id"];
 	}
 
-	public function edit($id, $detail)
+	public function edit($userId, $id, $detail)
 	{
+		if (empty($userId)) return null;
+
 		$this->db;
 
 		$hstoreType = new DB_Type_Pgsql_Hstore(new DB_Type_String());
@@ -171,8 +184,10 @@ class Post extends Api
 		return $data["id"];
 	}
 
-	public function remove($id)
+	public function remove($userId, $id)
 	{
+		if (empty($userId)) return null;
+
 		$sql = 'update posts set deleted = true where id = :post_id returning deleted';
 
 		$sth = $this->db->prepare($sql);
@@ -186,5 +201,24 @@ class Post extends Api
 		$sth->closeCursor();
 
 		return $data["deleted"] == 'true' ? true : false;
+	}
+
+	public function comment_enabled($userId, $id, $value){
+		if (empty($userId)) return null;
+
+		$sql = 'update posts set comment_enabled = :value where id = :post_id returning comment_enabled';
+
+		$sth = $this->db->prepare($sql);
+
+		$sth->bindParam(':post_id', $id, PDO::PARAM_INT);
+		$sth->bindParam(':value', $value, PDO::PARAM_BOOL);
+
+		$sth->execute();
+
+		$data = $sth->fetch(PDO::FETCH_ASSOC);
+
+		$sth->closeCursor();
+
+		return $data["comment_enabled"] == 'true' ? true : false;
 	}
 }

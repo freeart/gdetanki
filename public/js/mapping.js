@@ -21,12 +21,31 @@ var signin = {}
 var home = {}
 var post = {}
 var category = {}
+var invite = {
+	'invite': {
+		'.form-invite': {
+			submit: {
+				action: [
+					'common.preventDefault',
+					'common.lockForm',
+					['common.dataGrabber', 'common.formGrabber'],
+					'common.dataConcat',
+					'common.send',
+					'common.log',
+					'common.verify',
+					'common.render'
+				],
+				always: 'common.unlockForm'
+			}
+		}
+	}
+}
 
 var common = {
 	'boot': ['plugins.timeago'],
 
 	'comments': {
-		'.form-comment':{
+		'.form-comment': {
 			submit: {
 				action: [
 					'common.preventDefault',
@@ -71,7 +90,7 @@ var common = {
 		}
 	},
 	'post': {
-		'.fa-minus-circle, .fa-plus-circle': {
+		'i.fa-minus-circle, i.fa-plus-circle': {
 			click: {
 				action: [
 					'common.preventDefault',
@@ -96,6 +115,23 @@ var common = {
 					'common.send',
 					'common.log',
 					'common.verify',
+					'other.result2value',
+					'common.render'
+				],
+				always: 'common.unlockForm'
+			}
+		},
+
+		'.comment-enabled-btn': {
+			click: {
+				action: [
+					'common.preventDefault',
+					'common.lockForm',
+					'common.dataGrabber',
+					'common.send',
+					'common.log',
+					'common.verify',
+					'other.result2value',
 					'common.render'
 				],
 				always: 'common.unlockForm'
@@ -111,6 +147,7 @@ var common = {
 					'common.send',
 					'common.log',
 					'common.verify',
+					'other.result2value',
 					'common.render'
 				],
 				always: 'common.unlockForm'
@@ -193,7 +230,7 @@ var common = {
 					'common.log',
 					'common.verify',
 					'common.render',
-                    'plugins.autocomplete'
+					'plugins.autocomplete'
 				],
 				always: 'common.unlockForm'
 			}

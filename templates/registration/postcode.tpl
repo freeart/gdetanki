@@ -15,7 +15,7 @@
 					console.log(r)
 					if (r.response) {
 						$('.btn-registration').show();
-						$('[name="nickname"]').val(r.response[0].screen_name)
+//						$('[name="nickname"]').val(r.response[0].screen_name)
 						$('[name="profile"]').val(JSON.stringify(r.response[0]))
 					}
 				});

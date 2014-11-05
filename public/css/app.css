@@ -151,11 +151,17 @@ html, body {
     cursor: pointer;
 }
 
-.social-bar #red:hover:before {
+a#red, a#green{
+	color: #B0B0B0;
+}
+
+.social-bar #red:hover {
+	text-decoration: none;
     color: red;
 }
 
-.social-bar #green:hover:before {
+.social-bar #green:hover {
+	text-decoration: none;
     color: green;
 }
 
@@ -195,8 +201,8 @@ html, body {
  .form-comment {
      margin-top: 15px;
  }
-
-.form-signin, .form-registration {
+ 
+.form-signin, .form-registration, .form-invite {
     margin: 40px 0 20px;
 }
 
@@ -237,7 +243,7 @@ html, body {
 
 }
 
-.form-signin input, .form-edit-post input, .form-registration input {
+.form-signin input, .form-edit-post input, .form-registration input, .form-invite input {
     height: 38px;
     line-height: 38px;
     border-radius: 0;
@@ -257,11 +263,11 @@ a.btn-signin, a.btn-signin:hover, a.btn-signin:active {
     color: #333;
 }
 
-.form-signin .input-group, .form-edit-post .input-group, .form-registration .input-group {
+.form-signin .input-group, .form-edit-post .input-group, .form-registration .input-group, .form-invite .input-group {
     margin-bottom: 10px;
 }
 
-.form-signin .input-group-addon:first-child, .form-edit-post .input-group-addon:first-child, .form-registration .input-group-addon:first-child {
+.form-signin .input-group-addon:first-child, .form-edit-post .input-group-addon:first-child, .form-registration .input-group-addon:first-child, .form-invite .input-group-addon:first-child {
     border-radius: 0;
 }
 

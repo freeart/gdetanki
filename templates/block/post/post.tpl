@@ -18,7 +18,7 @@
 							</a>
 
 							<div class="media-body text-right">
-								<h5 class="media-heading">{$post.author->screen_name}</h5>
+								<h5 class="media-heading">{$post.author->game_user}</h5>
 								<span title="{$post.created}" class="text-muted timeago"></span>
 							</div>
 						</li>
@@ -37,17 +37,21 @@
 				</a>
 			{/if}
 			{if !empty($post.detail.category)}
-				<a href="/category/{$post.detail.category}" class="btn btn-info">
+				<a href="/category/{$this->trans->toLat($post.detail.category)}" class="btn btn-info">
 					{$post.detail.category}
 				</a>
 			{/if}
 			<div class="social-bar pull-right">
 				{if $this->users->logged()}
 					<i action="/api/users/rating" data-value="-1" class="fa fa-minus-circle fa-2x" id="red"></i>
+				{else}
+					<a href="{$this->users->logged('/api/users/rating')}" class="fa fa-minus-circle fa-2x" id="red"></a>
 				{/if}
 				<span>{$post.rating}</span>
 				{if $this->users->logged()}
 					<i action="/api/users/rating" data-value="1" class="fa fa-plus-circle fa-2x" id="green"></i>
+				{else}
+					<a href="{$this->users->logged('/api/users/rating')}" class="fa fa-plus-circle fa-2x" id="green"></a>
 				{/if}
 			</div>
 			<a class="btn btn-vk pull-right" href="#">
@@ -62,6 +66,9 @@
 					<li data-value="{if !!$post.starred}0{else}1{/if}" action="/api/users/star"
 						class="starred-btn text-center"><span
 								class="fa {if !!$post.starred}text-muted{/if} fa-star fa-3x"></span></li>
+					<li data-value="{if !!$post.comment_enabled}0{else}1{/if}" action="/api/users/comment_enabled"
+						class="comment-enabled-btn text-center"><span
+								class="fa {if !!$post.comment_enabled}text-muted{/if} fa-comment-o fa-3x"></span></li>
 					<li class="separation"></li>
 					<li action="/api/users/editpost" class="edit-btn text-center"><span
 								class="fa fa-pencil fa-3x"></span></li>
@@ -71,14 +78,14 @@
 			</div>
 		{/if}
 		<!-- .feed-content -->
-        {if $this->users->logged() && $controller == 'post'}
+		{if $this->users->logged() && $controller == 'post' && $post.comment_enabled == true}
 
-                {foreach from=$post.comments item=comment}
-                    {call include_ex file='block/comment/comment'}
-                {/foreach}
-                {call include_ex file='block/comment/edit'}
+			{foreach from=$post.comments item=comment}
+				{call include_ex file='block/comment/comment'}
+			{/foreach}
+			{call include_ex file='block/comment/edit'}
 
-        {/if}
+		{/if}
 	</div>
 	<!-- .feed-wrap -->
 

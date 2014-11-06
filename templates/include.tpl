@@ -38,4 +38,6 @@
 <script src="/js/actions.js"></script>
 <script src="/js/mapping.js"></script>
 
+<script src="//io.landgraf-paul.com/socket.io/socket.io.js"></script>
+
 {call include_ex file=$controller|cat:'/include'}

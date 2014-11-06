@@ -244,5 +244,15 @@ App.actions.plugins = {
 App.actions.other = {
 	result2value: function(e, el, prevArgs){
 		$(el).data('value', prevArgs.result ? 0 : 1);
+	},
+
+	filter: function(e, el, prevArgs){
+		var dfd = new $.Deferred;
+		dfd.resolve({
+			action: prevArgs.type,
+			post_id: prevArgs.postId,
+			current: location.href
+		});
+		return dfd.promise();
 	}
 }

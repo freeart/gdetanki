@@ -32,6 +32,44 @@ class Feed extends Api
 		}
 	}
 
+	public function verify_update($condition)
+	{
+		$sql = 'select p.id,
+					p.detail,
+					p."authorId",
+					p.pinned,
+					p.starred,
+					p.rating,
+					p.created,
+					p.comment_enabled
+				from posts p
+				left outer join comments c on p.id = c."postId"
+				 ' . $condition . '
+				group by p.id
+				';
+
+		$sth = $this->db->prepare($sql);
+
+		$sth->execute();
+
+		$data = [];
+
+		$hstoreType = new DB_Type_Pgsql_Hstore(
+			new DB_Type_Wrapper_NullToDefault(new DB_Type_String())
+		);
+
+		while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+			$row["detail"] = $hstoreType->input($row["detail"]);
+			$row["comments"] = json_decode($row["comments"]);
+			$row["author"] = json_decode($this->redis->get('users:' . $row["authorId"] . ':info'));
+			$data[] = $row;
+		}
+
+		$sth->closeCursor();
+
+		return $data;
+	}
+
 	public function get($condition, $page)
 	{
 		$offset = ($page - 1) * 10;
@@ -76,21 +114,21 @@ class Feed extends Api
 		return $data;
 	}
 
-    public function getPagination($page = 1, $pages = 1)
-    {
+	public function getPagination($page = 1, $pages = 1)
+	{
 
-        $start_range = $page - floor(7 / 2);
-        $end_range = $page + floor(7 / 2);
-        if ($start_range <= 0) {
-            $end_range += abs($start_range) + 1;
-            $start_range = 1;
-        }
-        if ($end_range > $pages) {
-            $start_range -= $end_range - $pages;
-            $end_range = $pages;
-        }
-        $range = range($start_range, $end_range);
+		$start_range = $page - floor(7 / 2);
+		$end_range = $page + floor(7 / 2);
+		if ($start_range <= 0) {
+			$end_range += abs($start_range) + 1;
+			$start_range = 1;
+		}
+		if ($end_range > $pages) {
+			$start_range -= $end_range - $pages;
+			$end_range = $pages;
+		}
+		$range = range($start_range, $end_range);
 
-        return $range;
-    }
+		return $range;
+	}
 }

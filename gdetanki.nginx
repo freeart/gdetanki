@@ -1,4 +1,22 @@
 server {
+  listen 80;
+  server_name io.landgraf-paul.com;
+  location / {
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
+
+        proxy_pass http://127.0.0.1:3000/;
+        proxy_redirect off;
+
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+
+server {
     listen 80;
     server_name gdetanki.landgraf-paul.com;
 
@@ -14,15 +32,15 @@ server {
         rewrite ^/(/)?$ /index.php?c=home&t=tpl;
     }
 
-	location ~ ^/signin {
+    location ~ ^/signin {
         rewrite ^/([^/]*)/?(.*)$  /index.php?c=signin&t=tpl&$2;
     }
 
-	location ~ ^/registration {
+    location ~ ^/registration {
         rewrite ^/([^/]*)/?(.*)$  /index.php?c=registration&t=tpl&$2;
     }
 
-	location ~ ^/feed {
+    location ~ ^/feed {
         if (!-e $request_filename){
             rewrite ^/([^/]*)/([^/]*)/?(.*)$ /index.php?c=home&filter=$2&t=tpl&$3;
         }
@@ -41,24 +59,23 @@ server {
     }
 
     location ~ ^/get {
-		if (!-e $request_filename){
+        if (!-e $request_filename){
             rewrite ^/([^/]*)/([^/]*)/([^/]*)/?(.*)$ /index.php?&c=$2&m=$3&$4&t=access;
         }
     }
 
-	location ~ ^/html {
-		if (!-e $request_filename){
-			rewrite ^/([^/]*)/([^/]*)/([^/]*)/?(.*)$ /index.php?&c=$2&f=$3&$4&t=html;
-		}
-	}
+    location ~ ^/html {
+        if (!-e $request_filename){
+            rewrite ^/([^/]*)/([^/]*)/([^/]*)/?(.*)$ /index.php?&c=$2&f=$3&$4&t=html;
+        }
+    }
 
-	location ~ ^/api {
-		if (!-e $request_filename){
-			echo_read_request_body;
-			rewrite ^/([^/]*)/([^/]*)/([^/]*)/?(.*)$ /index.php?&c=$2&m=$3&$4&t=json;
-		}
-	}
-
+    location ~ ^/api {
+        if (!-e $request_filename){
+            echo_read_request_body;
+            rewrite ^/([^/]*)/([^/]*)/([^/]*)/?(.*)$ /index.php?&c=$2&m=$3&$4&t=json;
+        }
+    }
 
     location ~ \.php$ {
         fastcgi_intercept_errors on;

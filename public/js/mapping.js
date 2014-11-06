@@ -8,7 +8,6 @@ var registration = {
 					['common.dataGrabber', 'common.formGrabber'],
 					'common.dataConcat',
 					'common.send',
-					'common.log',
 					'common.verify',
 					'common.render'
 				],
@@ -21,25 +20,6 @@ var signin = {}
 var home = {}
 var post = {}
 var category = {}
-var invite = {
-	'invite': {
-		'.form-invite': {
-			submit: {
-				action: [
-					'common.preventDefault',
-					'common.lockForm',
-					['common.dataGrabber', 'common.formGrabber'],
-					'common.dataConcat',
-					'common.send',
-					'common.log',
-					'common.verify',
-					'common.render'
-				],
-				always: 'common.unlockForm'
-			}
-		}
-	}
-}
 
 var common = {
 	'boot': ['plugins.timeago'],
@@ -52,7 +32,6 @@ var common = {
 					'common.lockForm',
 					'common.formGrabber',
 					'common.send',
-					'common.log',
 					'common.verify',
 					'common.render'
 				],
@@ -70,7 +49,6 @@ var common = {
 					['common.dataGrabber', 'common.formGrabber'],
 					'common.dataConcat',
 					'common.send',
-					'common.log',
 					'common.verify',
 					'common.render'
 				],
@@ -90,6 +68,21 @@ var common = {
 		}
 	},
 	'post': {
+		'.feed-body': {
+			insert: {
+				action: [
+					'common.preventDefault',
+					'common.eventGrabber',
+					'other.filter',
+					'common.log',
+					'common.send',
+					'common.log',
+					'common.verify',
+					'common.render'
+				]
+			}
+		},
+
 		'i.fa-minus-circle, i.fa-plus-circle': {
 			click: {
 				action: [
@@ -98,7 +91,6 @@ var common = {
 					['common.dataGrabber', 'common.formGrabber'],
 					'common.dataConcat',
 					'common.send',
-					'common.log',
 					'common.verify',
 					'common.render'
 				],
@@ -113,7 +105,6 @@ var common = {
 					'common.lockForm',
 					'common.dataGrabber',
 					'common.send',
-					'common.log',
 					'common.verify',
 					'other.result2value',
 					'common.render'
@@ -129,7 +120,6 @@ var common = {
 					'common.lockForm',
 					'common.dataGrabber',
 					'common.send',
-					'common.log',
 					'common.verify',
 					'other.result2value',
 					'common.render'
@@ -145,7 +135,6 @@ var common = {
 					'common.lockForm',
 					'common.dataGrabber',
 					'common.send',
-					'common.log',
 					'common.verify',
 					'other.result2value',
 					'common.render'
@@ -161,7 +150,6 @@ var common = {
 					'common.lockForm',
 					'common.dataGrabber',
 					'common.send',
-					'common.log',
 					'common.verify',
 					'common.render',
 					'plugins.autocomplete'
@@ -178,9 +166,7 @@ var common = {
 					'plugins.prepareHTMLData',
 					['common.dataGrabber', 'common.formGrabber'],
 					'common.dataConcat',
-					'common.log',
 					'common.send',
-					'common.log',
 					'common.verify',
 					'common.render',
 					'plugins.timeago'
@@ -196,7 +182,6 @@ var common = {
 					'common.lockForm',
 					'common.dataGrabber',
 					'common.send',
-					'common.log',
 					'common.verify',
 					'common.render',
 					'plugins.timeago'
@@ -212,7 +197,6 @@ var common = {
 					'common.lockForm',
 					'common.dataGrabber',
 					'common.send',
-					'common.log',
 					'common.verify',
 					'common.render'
 				],
@@ -227,7 +211,6 @@ var common = {
 					'common.lockForm',
 					'common.dataGrabber',
 					'common.send',
-					'common.log',
 					'common.verify',
 					'common.render',
 					'plugins.autocomplete'

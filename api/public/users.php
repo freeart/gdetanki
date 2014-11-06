@@ -346,8 +346,11 @@ class Users extends Api
 				"html" => $this->template->fetch("block/post/edit.tpl")
 			);
 		} else {
-			$data["#feed-menu"] = array(
-				"mode" => "after",
+			$data[".wrapper[data-id=new]"] = array(
+				"mode" => "delete"
+			);
+			$data[".feed-body"] = array(
+				"mode" => "prepend",
 				"html" => $this->template->fetch("block/post/edit.tpl")
 			);
 		}
@@ -400,15 +403,16 @@ class Users extends Api
 
 		if ($result > 0) {
 			if ($id > 0) {
-				$data[".wrapper[data-id=$result]"] = array(
-					"mode" => "replaceWith",
-					"html" => $this->template->fetch("block/post/post.tpl")
-				);
+//				$data[".wrapper[data-id=$result]"] = array(
+//					"mode" => "replaceWith",
+//					"html" => $this->template->fetch("block/post/post.tpl")
+//				);
 			} else {
-				$data[".wrapper[data-id=new]"] = array(
-					"mode" => "replaceWith",
-					"html" => $this->template->fetch("block/post/post.tpl")
-				);
+//				$data[".wrapper[data-id=new]"] = array(
+//					"mode" => "replaceWith",
+//					"html" => $this->template->fetch("block/post/post.tpl")
+//				);
+				$data[".wrapper[data-id=new]"] = array('mode' => 'delete');
 			}
 		}
 
@@ -431,6 +435,63 @@ class Users extends Api
 		}
 
 		$sth->closeCursor();
+
+		return $data;
+	}
+
+	public function verify_update()
+	{
+		$action = $this->request->get('action', 'string');
+		$post_id = $this->request->get('post_id', 'integer');
+		$current = $this->request->get('current');
+
+		$uricomponents = parse_url($current);
+
+		$params = array();
+		if (array_key_exists('query', $uricomponents)) {
+			parse_str($uricomponents['query'], $params);
+		}
+
+		$filter = null;
+		if (strpos($uricomponents['path'], '/feed/') !== false) {
+			$filter = str_replace(array('/', 'feed'), '', $uricomponents['path']);
+		}
+		if (strpos($uricomponents['path'], '/category/') !== false) {
+			$filter = 'category';
+			$name = urldecode(str_replace(array('/', 'category'), '', $uricomponents['path']));
+		}
+
+		$page = intval($params['page']);
+
+		$map = array(
+			'top' => 'where p.starred is true and p.deleted = false and p.id = ' . $post_id,
+			'new' => 'where p.created::date = CURRENT_DATE and p.deleted = false and p.id = ' . $post_id,
+			'hot' => 'where p.rating > 9 and p.deleted = false and p.id = ' . $post_id,
+			'category' => "where p.detail->'category' = '" . $name . "' and p.deleted = false and p.id = " . $post_id
+		);
+
+		$data = array();
+
+		$posts = array();
+		if ($page < 2) {
+			$posts = $this->feed->verify_update(array_key_exists($filter, $map) ? $map[$filter] : 'where p.deleted = false and p.id = ' . $post_id);
+		}
+
+		if (count($posts) > 0) {
+			$this->template->assign('this', $this);
+
+			$this->template->assign('post', $this->post->get($posts[0]['id']));
+
+			$this->template->fetch('functions.tpl');
+
+			if ($action == 'insert') {
+				$data[".feed-body"] = array(
+					"mode" => "prepend",
+					"html" => $this->template->fetch("block/post/post.tpl")
+				);
+
+			}
+		}
 
 		return $data;
 	}

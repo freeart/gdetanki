@@ -370,6 +370,16 @@ a.btn-signin, a.btn-signin:hover, a.btn-signin:active {
     pointer-events: none;
 }
 
+.navbar.no-script {
+    margin: 0;
+}
+
+.no-script-text {
+    line-height: 44px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
 @media (min-width: 768px) {
 
     .feed-wrap:hover .speed-menu {

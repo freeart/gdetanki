@@ -6,6 +6,7 @@
 
     {if $page < 1}
         {$page = 1}
+        {$url = $url|cat:"?page=1"}
     {/if}
 
     <ul class="pagination">
@@ -14,7 +15,7 @@
         {if $pages>10}
 
             {assign "range" $this->common->getPagination($page, $pages)}
-            
+
             {for $i = 1 to $pages}
                 {if $range[0] > 2 And $i == $range[0]}
                     <li class="disabled"><a

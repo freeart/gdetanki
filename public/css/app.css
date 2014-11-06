@@ -366,6 +366,10 @@ a.btn-signin, a.btn-signin:hover, a.btn-signin:active {
     margin: 0 auto -60px;
 }
 
+.disabled a {
+    pointer-events: none;
+}
+
 @media (min-width: 768px) {
 
     .feed-wrap:hover .speed-menu {

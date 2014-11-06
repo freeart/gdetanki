@@ -14,7 +14,7 @@
 
 		window.socket = io.connect('http://io.landgraf-paul.com');
 
-		window.socket.on('watch', function (msg) {
+		window.socket.on('autoupdate', function (msg) {
 			if (msg.entity == 'posts'){
 				$('.feed-body').trigger({type: msg.action, postId: msg.id});
 			}

@@ -28,7 +28,7 @@ d.run(function () {
 	server.listen(3000, function () {
 		console.log('server listening on port 3000');
 	});
-	var io = require('socket.io').listen(server, {log: true});
+	var io = require('socket.io').listen(server, {log: false});
 
 	var pgListener = new pg.Client("postgres://gdetanki:root@localhost/gdetanki");
 	pgListener.connect(function (err) {
@@ -41,7 +41,7 @@ d.run(function () {
 
 	pgListener.on('notification', function (msg) {
 		var data = msg.payload.split('::');
-		console.log('watch', {id: data[2], action: data[0].toLowerCase(), entity: data[1].toLowerCase()});
-		io.emit('watch', {id: data[2], action: data[0].toLowerCase(), entity: data[1].toLowerCase()});
+		console.log('autoupdate', {id: data[2], action: data[0].toLowerCase(), entity: data[1].toLowerCase()});
+		io.emit('autoupdate', {id: data[2], action: data[0].toLowerCase(), entity: data[1].toLowerCase()});
 	});
 });

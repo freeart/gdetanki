@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" type="text/css" media="screen"/>
 
 <!-- Animate.css -->
-<link rel="stylesheet" href="/bower_components/animate/animate.min.css" type="text/css" media="screen"/>
+<link rel="stylesheet" href="/bower_components/animate.css/animate.min.css" type="text/css" media="screen"/>
 
 <!-- Font-awesome.css -->
 <link rel="stylesheet" href="/bower_components/components-font-awesome/css/font-awesome.min.css" type="text/css" media="screen"/>
@@ -38,6 +38,6 @@
 <script src="/js/actions.js"></script>
 <script src="/js/mapping.js"></script>
 
-<script src="//io.landgraf-paul.com/socket.io/socket.io.js"></script>
+<script src="//io.gdetanki.com/socket.io/socket.io.js"></script>
 
 {call include_ex file=$controller|cat:'/include'}

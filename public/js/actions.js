@@ -250,6 +250,8 @@ App.actions.other = {
 		var dfd = new $.Deferred;
 		dfd.resolve({
 			action: prevArgs.type,
+			entity: prevArgs.entity,
+			comment_id: prevArgs.commentId,
 			post_id: prevArgs.postId,
 			current: location.href
 		});

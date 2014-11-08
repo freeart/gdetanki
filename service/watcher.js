@@ -40,8 +40,13 @@ d.run(function () {
 	});
 
 	pgListener.on('notification', function (msg) {
+		console.log(msg.payload);
 		var data = msg.payload.split('::');
-		console.log('autoupdate', {id: data[2], action: data[0].toLowerCase(), entity: data[1].toLowerCase()});
-		io.emit('autoupdate', {id: data[2], action: data[0].toLowerCase(), entity: data[1].toLowerCase()});
+		var entity = data[1].toLowerCase();
+		if (entity == "posts") {
+			io.emit('autoupdate', {id: data[2], action: data[0].toLowerCase(), entity: entity});
+		}else if (entity == "comments"){
+			io.emit('autoupdate', {id: data[2], post_id: data[3], action: data[0].toLowerCase(), entity: entity});
+		}
 	});
 });

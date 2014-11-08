@@ -83,9 +83,7 @@ class Feed extends Api
 					p.created,
 					p.comment_enabled
 				from posts p
-				left outer join comments c on p.id = c."postId"
 				 ' . $condition . '
-				group by p.id
 				order by p.pinned desc, p.created desc
 				limit 10 offset :offset
 				';
@@ -104,7 +102,6 @@ class Feed extends Api
 
 		while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 			$row["detail"] = $hstoreType->input($row["detail"]);
-			$row["comments"] = json_decode($row["comments"]);
 			$row["author"] = json_decode($this->redis->get('users:' . $row["authorId"] . ':info'));
 			$data[] = $row;
 		}

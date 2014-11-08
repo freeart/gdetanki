@@ -10,7 +10,7 @@ class Redis extends Api
 	{
 		parent::__construct();
 
-		ComposerAutoloaderInit7414297074fd4b16ee1fbef0c2897395::getLoader();
+		 ComposerAutoloaderInit17b7214ec51501e2e1aa152e657679c0::getLoader();
 
 		$this->link = $redis = new redisent\Redis('redis://localhost/');
 	}

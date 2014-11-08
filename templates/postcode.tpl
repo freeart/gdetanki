@@ -12,16 +12,19 @@
 			$(this).removeClass('animated bounceIn');
 		});
 
-		window.socket = io.connect('http://io.landgraf-paul.com');
+		window.socket = io.connect('http://io.gdetanki.com');
 
 		window.socket.on('autoupdate', function (msg) {
 			if (msg.entity == 'posts'){
-				$('.feed-body').trigger({type: msg.action, postId: msg.id});
+				$('.feed-body').trigger({entity: msg.entity, type: msg.action, postId: msg.id});
+			}
+			if (msg.entity == 'comments'){
+				$(".wrapper[data-id=" + msg.post_id + "] .comments-body").trigger({entity: msg.entity, type: msg.action, postId: msg.post_id, commentId: msg.id });
 			}
 		});
 
 		window.categories = {/literal}{json_encode($this->users->distCatalogs())}{literal}
-				App.init({/literal}{$controller}{literal}, App.actions);
+		App.init({/literal}{$controller}{literal}, App.actions);
 		App.init(common, App.actions);
 	});
 

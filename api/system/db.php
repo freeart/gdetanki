@@ -14,55 +14,59 @@ require_once '../../dev/pg_types/Exception/Common.php';
 
 class Db extends Api
 {
-    private $link;
+	private $link;
 
-    public $mapper = array(
-        'default' => array(
-            'db' => 'gdetanki',
-            'user' => 'postgres',
-            'pwd' => 'root'
-        )
-    );
+	public $mapper = array(
+		'default' => array(
+			'db' => 'gdetanki',
+			'user' => 'gdetanki',
+			'pwd' => 'root'
+		)
+	);
 
-    public function __construct($name = 'default')
-    {
-        parent::__construct();
+	public function __construct($name = 'default')
+	{
+		parent::__construct();
 
-        $this->connect($this->mapper[$name]['db'], $this->mapper[$name]['user'], $this->mapper[$name]['pwd']);
-    }
+		try {
+			$this->connect($this->mapper[$name]['db'], $this->mapper[$name]['user'], $this->mapper[$name]['pwd']);
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
 
-    public function __destruct()
-    {
-        $this->disconnect();
-    }
+	public function __destruct()
+	{
+		$this->disconnect();
+	}
 
-    private function connect($db, $user, $pwd)
-    {
-        if (!empty($this->link))
-            return $this->link;
+	private function connect($db, $user, $pwd)
+	{
+		if (!empty($this->link))
+			return $this->link;
 
-        try {
-            $this->link = new PDO("pgsql:dbname=$db;host=localhost", "$user", "$pwd");
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-        }
+		try {
+			$this->link = new PDO("pgsql:dbname=$db;host=localhost", "$user", "$pwd");
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
 
-        return $this->link;
-    }
+		return $this->link;
+	}
 
-    private function disconnect()
-    {
-        $dbh = null;
-        return true;
-    }
+	private function disconnect()
+	{
+		$dbh = null;
+		return true;
+	}
 
-    public static function __callStatic($method, $args)
-    {
-        return call_user_func_array('PDO::' . $method, $args);
-    }
+	public static function __callStatic($method, $args)
+	{
+		return call_user_func_array('PDO::' . $method, $args);
+	}
 
-    public function __call($method, $args)
-    {
-        return call_user_func_array(array($this->link, $method), $args);
-    }
+	public function __call($method, $args)
+	{
+		return call_user_func_array(array($this->link, $method), $args);
+	}
 }

@@ -53,6 +53,36 @@ class Post extends Api
 		return $data['rating'];
 	}
 
+	public function getComment($comment_id)
+	{
+		$sql = 'select c.id,
+					c.text,
+					c."authorId",
+					c."postId"
+				from comments c
+				where c.id = :comment_id';
+
+		$sth = $this->db->prepare($sql);
+
+		$sth->bindParam(':comment_id', $comment_id, PDO::PARAM_INT);
+
+		$sth->execute();
+
+		$data = $sth->fetch(PDO::FETCH_ASSOC);
+
+		$sth->closeCursor();
+
+		$comment = new stdClass();
+		if ($data["id"]) {
+			$comment->id = $data["id"];
+			$comment->postId = $data["postId"];
+			$comment->author = json_decode($this->redis->get('users:' . $data["authorId"] . ':info'));
+			$comment->text = $data["text"];
+		}
+
+		return $comment;
+	}
+
 	public function get($id)
 	{
 		$sql = 'select p.id,
@@ -203,7 +233,8 @@ class Post extends Api
 		return $data["deleted"] == 'true' ? true : false;
 	}
 
-	public function comment_enabled($userId, $id, $value){
+	public function comment_enabled($userId, $id, $value)
+	{
 		if (empty($userId)) return null;
 
 		$sql = 'update posts set comment_enabled = :value where id = :post_id returning comment_enabled';

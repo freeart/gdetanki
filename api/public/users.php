@@ -241,14 +241,14 @@ class Users extends Api
 
 		if ($result->id > 0) {
 			$this->template->assign('this', $this);
-			$this->template->assign('comment', $result);
+//			$this->template->assign('comment', $result);
 			$this->template->assign('post', array("id" => $post_id));
 			$this->template->fetch('functions.tpl');
 
-			$data[".wrapper[data-id=" . $post_id . "] .form-comment"] = array(
-				"mode" => "before",
-				"html" => $this->template->fetch("block/comment/comment.tpl")
-			);
+//			$data[".wrapper[data-id=" . $post_id . "] .form-comment"] = array(
+//				"mode" => "before",
+//				"html" => $this->template->fetch("block/comment/comment.tpl")
+//			);
 			$data[" .wrapper[data-id=" . $post_id . "] .form-comment"] = array(
 				"mode" => "replaceWith",
 				"html" => $this->template->fetch("block/comment/edit.tpl")
@@ -442,52 +442,71 @@ class Users extends Api
 	public function verify_update()
 	{
 		$action = $this->request->get('action', 'string');
+		$entity = $this->request->get('entity', 'string');
 		$post_id = $this->request->get('post_id', 'integer');
+		$comment_id = $this->request->get('comment_id', 'integer');
 		$current = $this->request->get('current');
 
-		$uricomponents = parse_url($current);
-
-		$params = array();
-		if (array_key_exists('query', $uricomponents)) {
-			parse_str($uricomponents['query'], $params);
-		}
-
-		$filter = null;
-		if (strpos($uricomponents['path'], '/feed/') !== false) {
-			$filter = str_replace(array('/', 'feed'), '', $uricomponents['path']);
-		}
-		if (strpos($uricomponents['path'], '/category/') !== false) {
-			$filter = 'category';
-			$name = urldecode(str_replace(array('/', 'category'), '', $uricomponents['path']));
-		}
-
-		$page = intval($params['page']);
-
-		$map = array(
-			'top' => 'where p.starred is true and p.deleted = false and p.id = ' . $post_id,
-			'new' => 'where p.created::date = CURRENT_DATE and p.deleted = false and p.id = ' . $post_id,
-			'hot' => 'where p.rating > 9 and p.deleted = false and p.id = ' . $post_id,
-			'category' => "where p.detail->'category' = '" . $name . "' and p.deleted = false and p.id = " . $post_id
-		);
-
 		$data = array();
+		if ($entity == "posts") {
+			$uricomponents = parse_url($current);
 
-		$posts = array();
-		if ($page < 2) {
-			$posts = $this->feed->verify_update(array_key_exists($filter, $map) ? $map[$filter] : 'where p.deleted = false and p.id = ' . $post_id);
-		}
+			$params = array();
+			if (array_key_exists('query', $uricomponents)) {
+				parse_str($uricomponents['query'], $params);
+			}
 
-		if (count($posts) > 0) {
+			$filter = null;
+			if (strpos($uricomponents['path'], '/feed/') !== false) {
+				$filter = str_replace(array('/', 'feed'), '', $uricomponents['path']);
+			}
+			if (strpos($uricomponents['path'], '/category/') !== false) {
+				$filter = 'category';
+				$name = urldecode(str_replace(array('/', 'category'), '', $uricomponents['path']));
+			}
+
+			$page = intval($params['page']);
+
+			$map = array(
+				'top' => 'where p.starred is true and p.deleted = false and p.id = ' . $post_id,
+				'new' => 'where p.created::date = CURRENT_DATE and p.deleted = false and p.id = ' . $post_id,
+				'hot' => 'where p.rating > 9 and p.deleted = false and p.id = ' . $post_id,
+				'category' => "where p.detail->'category' = '" . $name . "' and p.deleted = false and p.id = " . $post_id
+			);
+
+			$posts = array();
+			if ($page < 2) {
+				$posts = $this->feed->verify_update(array_key_exists($filter, $map) ? $map[$filter] : 'where p.deleted = false and p.id = ' . $post_id);
+			}
+
+			if (count($posts) > 0) {
+				$this->template->assign('this', $this);
+
+				$this->template->assign('post', $this->post->get($posts[0]['id']));
+
+				$this->template->fetch('functions.tpl');
+
+				if ($action == 'insert') {
+					$data[".feed-body"] = array(
+						"mode" => "prepend",
+						"html" => $this->template->fetch("block/post/post.tpl")
+					);
+
+				}
+			}
+		} else if ($entity == "comments") {
 			$this->template->assign('this', $this);
 
-			$this->template->assign('post', $this->post->get($posts[0]['id']));
+			$comment = $this->post->getComment($comment_id);
+
+			$this->template->assign('comment', $comment);
 
 			$this->template->fetch('functions.tpl');
 
 			if ($action == 'insert') {
-				$data[".feed-body"] = array(
-					"mode" => "prepend",
-					"html" => $this->template->fetch("block/post/post.tpl")
+				$data[".wrapper[data-id=" . $comment->postId . "] .comments-body"] = array(
+					"mode" => "append",
+					"html" => $this->template->fetch("block/comment/comment.tpl")
 				);
 
 			}

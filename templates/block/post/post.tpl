@@ -51,7 +51,8 @@
 				{if $this->users->logged()}
 					<i action="/api/users/rating" data-value="1" class="fa fa-plus-circle fa-2x" id="green"></i>
 				{else}
-					<a href="{$this->users->logged('/api/users/rating')}" class="fa fa-plus-circle fa-2x" id="green"></a>
+					<a href="{$this->users->logged('/api/users/rating')}" class="fa fa-plus-circle fa-2x"
+					   id="green"></a>
 				{/if}
 			</div>
 			<a class="btn btn-vk pull-right" href="#">
@@ -79,10 +80,11 @@
 		{/if}
 		<!-- .feed-content -->
 		{if $this->users->logged() && $controller == 'post' && $post.comment_enabled == true}
-
-			{foreach from=$post.comments item=comment}
-				{call include_ex file='block/comment/comment'}
-			{/foreach}
+			<div class="comments-body" action="/api/users/verify_update">
+				{foreach from=$post.comments item=comment}
+					{call include_ex file='block/comment/comment'}
+				{/foreach}
+			</div>
 			{call include_ex file='block/comment/edit'}
 
 		{/if}

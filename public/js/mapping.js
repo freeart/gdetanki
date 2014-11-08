@@ -37,6 +37,21 @@ var common = {
 				],
 				always: 'common.unlockForm'
 			}
+		},
+
+		'.comments-body': {
+			insert: {
+				action: [
+					'common.preventDefault',
+					'common.eventGrabber',
+					'other.filter',
+					'common.log',
+					'common.send',
+					'common.log',
+					'common.verify',
+					'common.render'
+				]
+			}
 		}
 	},
 
@@ -67,6 +82,7 @@ var common = {
 			}
 		}
 	},
+
 	'post': {
 		'.feed-body': {
 			insert: {

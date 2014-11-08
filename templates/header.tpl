@@ -1,3 +1,14 @@
+<noscript>
+    <nav class="navbar no-script bg-danger">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="text-center no-script-text">
+                    Включите JavaScript для корректной работы сайта <span class="fa fa-exclamation-triangle"></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+</noscript>
 <nav class="navbar navbar-app" role="navigation">
     <div class="container-fluid">
         <div class="row">
@@ -10,11 +21,11 @@
                     </a>
                 </div>
 
-                    <button id='main-menu-collapse' type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                            data-target="#header-collapse">
+                <button id='main-menu-collapse' type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#header-collapse">
 
-                        <span class="glyphicon glyphicon-chevron-down"></span>
-                    </button>
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                </button>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="header-collapse">
